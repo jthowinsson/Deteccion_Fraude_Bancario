@@ -1,0 +1,2716 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Imputación de Datos y VIF &#8212; Detección de Fraude</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '3 Imputación_Datos y VIF';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="4%20Modelo%20K-NN.html" />
+    <link rel="prev" title="EDA Train_transaction" href="2%20EDA%20Train_transaction.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Detección de Fraude - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Detección de Fraude - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Detección de Fraude Bancario: La Convergencia de la Inteligencia Artificial
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="1%20EDA%20Test_transaction.html">EDA Test_transaction</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="2%20EDA%20Train_transaction.html">EDA Train_transaction</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Imputación de Datos y VIF</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="5%20Logistic%20Regression%20Model.html">Logistic Regression Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="6%20Bayesian%20Classification%20Model.html">Bayesian Classification Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="7%20Decision%20Tree%20Classifier.html">Decision Tree Classifier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="8%20Random%20Forest%20Model.html">Random Forest Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="9%20XGBoost.html">XGBoost</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10%20Support%20Vector%20Machine%20SVM%20Model.html">Support Vector Machine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11%20Multilayer%20Perceptron%20MLP%20Model.html">Multilayer Perceptron MLP Model</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2F3 Imputación_Datos y VIF.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/3 Imputación_Datos y VIF.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Imputación de Datos y VIF</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Imputación de Datos y VIF</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-del-conjunto-de-datos-de-fraude">Variables del Conjunto de Datos de Fraude</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aplicacion-del-vif-1-mayor-a-10">Aplicación del VIF 1 Mayor a 10</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aplicacion-vif-2-menor-a-3">Aplicación VIF 2 Menor a 3</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="imputacion-de-datos-y-vif">
+<h1>Imputación de Datos y VIF<a class="headerlink" href="#imputacion-de-datos-y-vif" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 11. Importar los paquetes necesarios</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">zipfile</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 12. Leer el archivo CSV &#39;FD1.csv&#39; desde el ZIP</span>
+<span class="c1">#     Ruta al archivo ZIP</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+
+<span class="n">zip_path</span> <span class="o">=</span> <span class="s2">&quot;C:/Users/jthow/iCloudDrive/Documents/3_Maestria_Estadistica_UNINORTE/3_Tercer_Semestre/Machine_Learning/Parcial_Practico/Fraude_Data_FD1_FD2.zip&quot;</span>
+
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 13. Lista para almacenar los tiempos de ejecución</span>
+<span class="c1"># --------------------------------------------------------------------------</span>
+
+<span class="n">execution_times</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># Iniciar el cronómetro</span>
+
+<span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">zip_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">zip_ref</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">zip_ref</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;FD1.csv&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="n">FD1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+
+<span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># Detener el cronómetro</span>
+<span class="n">elapsed_time</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
+<span class="n">execution_times</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;Lectura del CSV&quot;</span><span class="p">,</span> <span class="n">elapsed_time</span><span class="p">))</span>
+
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 14. Mostrar el DataFrame FD1</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># Iniciar el cronómetro</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">FD1</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>  <span class="c1"># Muestra las primeras filas del DataFrame</span>
+
+<span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># Detener el cronómetro</span>
+<span class="n">elapsed_time</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
+<span class="n">execution_times</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;Visualización del DataFrame&quot;</span><span class="p">,</span> <span class="n">elapsed_time</span><span class="p">))</span>
+
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 15. Mostrar los tiempos de ejecución en una tabla</span>
+<span class="c1">#     Convertir los tiempos a minutos y segundos</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+
+<span class="n">formatted_times</span> <span class="o">=</span> <span class="p">[(</span><span class="n">desc</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="mi">60</span><span class="p">)</span><span class="si">}</span><span class="s2"> minutos y </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">60</span><span class="p">)</span><span class="si">}</span><span class="s2"> segundos&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">desc</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">execution_times</span><span class="p">]</span>
+
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 16. Crear un DataFrame para mostrar los tiempos</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+
+<span class="n">times_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">formatted_times</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Descripción&quot;</span><span class="p">,</span> <span class="s2">&quot;Tiempo Transcurrido&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Tiempos de ejecución:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">times_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">24</span>
+<span class="g g-Whitespace">     </span><span class="mi">20</span> <span class="n">execution_times</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="g g-Whitespace">     </span><span class="mi">22</span> <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># Iniciar el cronómetro</span>
+<span class="ne">---&gt; </span><span class="mi">24</span> <span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">zip_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">zip_ref</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">25</span>     <span class="k">with</span> <span class="n">zip_ref</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;FD1.csv&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">26</span>         <span class="n">FD1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+
+<span class="nn">File ~/miniconda3/envs/ml_venv/lib/python3.9/zipfile.py:1239,</span> in <span class="ni">ZipFile.__init__</span><span class="nt">(self, file, mode, compression, allowZip64, compresslevel, strict_timestamps)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1237</span> <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1238</span>     <span class="k">try</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1239</span>         <span class="bp">self</span><span class="o">.</span><span class="n">fp</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">filemode</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1240</span>     <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1241</span>         <span class="k">if</span> <span class="n">filemode</span> <span class="ow">in</span> <span class="n">modeDict</span><span class="p">:</span>
+
+<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;C:/Users/jthow/iCloudDrive/Documents/3_Maestria_Estadistica_UNINORTE/3_Tercer_Semestre/Machine_Learning/Parcial_Practico/Fraude_Data_FD1_FD2.zip&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>El consorcio académico examinó el conjunto de datos de detección de fraude, que incluye una columna objetivo (isFraud) que identifica si cada transacción es fraudulenta o no. La muestra presentada revela cinco transacciones, todas ellas legítimas (isFraud = 0). Observamos que estos registros contienen información temporal (TransDT), valores monetarios (TransAmt) que varían entre <span class="math notranslate nohighlight">\(29 y \)</span>68.50, y distintos tipos de productos (principalmente “W” con una instancia de “H”). Las transacciones utilizaron diferentes tarjetas: Mastercard (3), Visa (1) y Discover (1), todas con valor card3 consistente (150.0). Notamos que solo la última transacción contiene información completa sobre el dispositivo utilizado (un teléfono Samsung con navegador específico y resolución 2220x1080), mientras que las primeras cuatro presentan valores ausentes (NaN) en estas columnas técnicas. Esta estructura con 434 columnas confirma la complejidad del conjunto de datos y su potencial para modelar comportamientos fraudulentos mediante la integración de información financiera, de producto y tecnológica.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="variables-del-conjunto-de-datos-de-fraude">
+<h1>Variables del Conjunto de Datos de Fraude<a class="headerlink" href="#variables-del-conjunto-de-datos-de-fraude" title="Link to this heading">#</a></h1>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable</p></th>
+<th class="head"><p>Abreviación</p></th>
+<th class="head"><p>Descripción</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>TransactionID</p></td>
+<td><p>TxnID</p></td>
+<td><p>ID única de la transacción.</p></td>
+</tr>
+<tr class="row-odd"><td><p>TransactionDT</p></td>
+<td><p>TxnDT</p></td>
+<td><p>Tiempo desde el inicio de los datos (en segundos).</p></td>
+</tr>
+<tr class="row-even"><td><p>TransactionAmt</p></td>
+<td><p>TxnAmt</p></td>
+<td><p>Monto de la transacción.</p></td>
+</tr>
+<tr class="row-odd"><td><p>ProductCD</p></td>
+<td><p>ProdCD</p></td>
+<td><p>Código del tipo de producto financiero.</p></td>
+</tr>
+<tr class="row-even"><td><p>card1</p></td>
+<td><p>Card1</p></td>
+<td><p>Identificador parcial del titular de la tarjeta.</p></td>
+</tr>
+<tr class="row-odd"><td><p>card2</p></td>
+<td><p>Card2</p></td>
+<td><p>Posible banco emisor de la tarjeta.</p></td>
+</tr>
+<tr class="row-even"><td><p>card3</p></td>
+<td><p>Card3</p></td>
+<td><p>Región del emisor de la tarjeta.</p></td>
+</tr>
+<tr class="row-odd"><td><p>card4</p></td>
+<td><p>Card4</p></td>
+<td><p>Tipo de tarjeta (Visa, MasterCard, etc.).</p></td>
+</tr>
+<tr class="row-even"><td><p>card5</p></td>
+<td><p>Card5</p></td>
+<td><p>Código del banco emisor.</p></td>
+</tr>
+<tr class="row-odd"><td><p>card6</p></td>
+<td><p>Card6</p></td>
+<td><p>Tipo de cuenta (crédito, débito).</p></td>
+</tr>
+<tr class="row-even"><td><p>addr1</p></td>
+<td><p>Addr1</p></td>
+<td><p>Código de región del comprador.</p></td>
+</tr>
+<tr class="row-odd"><td><p>addr2</p></td>
+<td><p>Addr2</p></td>
+<td><p>Zona más específica (posiblemente país).</p></td>
+</tr>
+<tr class="row-even"><td><p>dist1</p></td>
+<td><p>Dist1</p></td>
+<td><p>Distancia entre comprador y comerciante (posiblemente geográfica).</p></td>
+</tr>
+<tr class="row-odd"><td><p>dist2</p></td>
+<td><p>Dist2</p></td>
+<td><p>Otra medida de distancia (más específica).</p></td>
+</tr>
+<tr class="row-even"><td><p>P_email domain</p></td>
+<td><p>P_Email</p></td>
+<td><p>Dominio del correo del comprador.</p></td>
+</tr>
+<tr class="row-odd"><td><p>R_email domain</p></td>
+<td><p>R_Email</p></td>
+<td><p>Dominio del correo del receptor.</p></td>
+</tr>
+<tr class="row-even"><td><p>C1-C14</p></td>
+<td><p>C1-C14</p></td>
+<td><p>Variables agregadas sobre comportamiento del cliente.</p></td>
+</tr>
+<tr class="row-odd"><td><p>D1-D15</p></td>
+<td><p>D1-D15</p></td>
+<td><p>Variables relacionadas con tiempo desde eventos anteriores.</p></td>
+</tr>
+<tr class="row-even"><td><p>M1-M9</p></td>
+<td><p>M1-M9</p></td>
+<td><p>Validaciones binarias (coincidencia de info, navegador, etc.).</p></td>
+</tr>
+<tr class="row-odd"><td><p>V1-V339</p></td>
+<td><p>V1-V339</p></td>
+<td><p>Variables encriptadas del comportamiento y características del usuario.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 17. Imputación multivariada de valores faltantes en columnas numéricas</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.experimental</span><span class="w"> </span><span class="kn">import</span> <span class="n">enable_iterative_imputer</span>  <span class="c1"># &lt;- Necesario para activar IterativeImputer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.impute</span><span class="w"> </span><span class="kn">import</span> <span class="n">IterativeImputer</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.impute</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleImputer</span>
+
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="c1"># Separar columnas numéricas</span>
+<span class="n">columnas_numericas</span> <span class="o">=</span> <span class="n">FD1</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+<span class="c1"># Instanciar el imputador multivariado</span>
+<span class="n">imputador</span> <span class="o">=</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;median&#39;</span><span class="p">)</span>
+ 
+
+<span class="c1"># Ajustar y transformar solo columnas numéricas</span>
+<span class="n">FD1</span><span class="p">[</span><span class="n">columnas_numericas</span><span class="p">]</span> <span class="o">=</span> <span class="n">imputador</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">FD1</span><span class="p">[</span><span class="n">columnas_numericas</span><span class="p">])</span>
+
+<span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">elapsed_time</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
+<span class="n">execution_times</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;Imputación univariada (SimpleImputer)&quot;</span><span class="p">,</span> <span class="n">elapsed_time</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">FD1</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>  <span class="c1"># Muestra las primeras filas del DataFrame después de la imputación</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     TransID  isFraud  TransDT  TransAmt ProdCD    card1  card2  card3  \
+0  2987000.0      0.0  86400.0      68.5      W  13926.0  361.0  150.0   
+1  2987001.0      0.0  86401.0      29.0      W   2755.0  404.0  150.0   
+2  2987002.0      0.0  86469.0      59.0      W   4663.0  490.0  150.0   
+3  2987003.0      0.0  86499.0      50.0      W  18132.0  567.0  150.0   
+4  2987004.0      0.0  86506.0      50.0      H   4497.0  514.0  150.0   
+
+        card4  card5  ...                id_31  id_32      id_33  \
+0    discover  142.0  ...                  NaN   24.0        NaN   
+1  mastercard  102.0  ...                  NaN   24.0        NaN   
+2        visa  166.0  ...                  NaN   24.0        NaN   
+3  mastercard  117.0  ...                  NaN   24.0        NaN   
+4  mastercard  102.0  ...  samsung browser 6.2   32.0  2220x1080   
+
+            id_34  id_35 id_36 id_37  id_38  DevType  \
+0             NaN    NaN   NaN   NaN    NaN      NaN   
+1             NaN    NaN   NaN   NaN    NaN      NaN   
+2             NaN    NaN   NaN   NaN    NaN      NaN   
+3             NaN    NaN   NaN   NaN    NaN      NaN   
+4  match_status:2      T     F     T      T   mobile   
+
+                         DevInfo  
+0                            NaN  
+1                            NaN  
+2                            NaN  
+3                            NaN  
+4  SAMSUNG SM-G892A Build/NRD90M  
+
+[5 rows x 434 columns]
+</pre></div>
+</div>
+</div>
+</div>
+<p>El conjunto de investigadores analizó una muestra de cinco transacciones del conjunto de datos de detección de fraude, todas clasificadas como legítimas (isFraud = 0). Estas transacciones ocurrieron en momentos secuenciales (TransDT entre 86400 y 86506) con montos moderados que varían entre <span class="math notranslate nohighlight">\(29 y \)</span>68.50. Cuatro transacciones corresponden al producto tipo “W” y una al tipo “H”. Se utilizaron diversos tipos de tarjetas: Mastercard (3), Visa (1) y Discover (1), todas con valor consistente en card3 (150.0) pero diferentes valores en card2 (entre 361 y 567). Notamos que la información del dispositivo está completa únicamente para la quinta transacción (un teléfono Samsung con navegador específico y resolución 2220x1080), mientras que las primeras cuatro muestran valores ausentes (NaN) en la mayoría de campos tecnológicos, aunque todas tienen id_32=24.0 excepto la última (32.0). Esta estructura confirma el patrón observado previamente donde los datos tecnológicos suelen estar completos solo para un subconjunto de transacciones, ilustrando la complejidad del conjunto de datos y los desafíos para el modelado.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.impute</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleImputer</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="c1"># Muestrear una porción más pequeña de los datos</span>
+<span class="n">FD1_sample</span> <span class="o">=</span> <span class="n">FD1</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Optimizar los tipos de datos para todas las columnas numéricas</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">FD1_sample</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">FD1_sample</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">:</span>
+        <span class="n">FD1_sample</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">FD1_sample</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">FD1_sample</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">:</span>
+        <span class="n">FD1_sample</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">FD1_sample</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+<span class="c1"># Separar las columnas numéricas</span>
+<span class="n">columnas_numericas</span> <span class="o">=</span> <span class="n">FD1_sample</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+<span class="c1"># Instanciar el imputador</span>
+<span class="n">imputador</span> <span class="o">=</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;median&#39;</span><span class="p">)</span>
+
+<span class="c1"># Ajustar y transformar los datos</span>
+<span class="n">FD1_sample</span><span class="p">[</span><span class="n">columnas_numericas</span><span class="p">]</span> <span class="o">=</span> <span class="n">imputador</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">FD1_sample</span><span class="p">[</span><span class="n">columnas_numericas</span><span class="p">])</span>
+
+<span class="c1"># Continuar con tu análisis</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">missing_values</span><span class="o">=</span><span class="n">FD1</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>  <span class="c1"># Verificar si hay valores faltantes después de la imputación</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">missing_values</span><span class="p">[</span><span class="n">missing_values</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">])</span>
+ 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>card4        1577
+card6        1571
+P_Email     94456
+R_Email    453249
+M1         271100
+M2         271100
+M3         271100
+M4         281444
+M5         350482
+M6         169360
+M7         346265
+M8         346252
+M9         346252
+id_12      446307
+id_15      449555
+id_16      461200
+id_23      585371
+id_27      585371
+id_28      449562
+id_29      449562
+OpSyst     512975
+id_31      450258
+id_33      517251
+id_34      512735
+id_35      449555
+id_36      449555
+id_37      449555
+id_38      449555
+DevType    449730
+DevInfo    471874
+dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>Los especialistas en análisis de datos identificaron un patrón crítico de valores faltantes en el conjunto de datos de fraude, afectando especialmente a variables clave para el modelado. La tabla muestra el conteo de valores ausentes por columna, revelando que las variables tecnológicas presentan la mayor cantidad de datos faltantes: DevInfo (471,874), OpSyst (512,975), y id_33 (517,251). También existe un alto grado de ausencia en información de correo electrónico, especialmente R_Email (453,249). Las variables relacionadas con la identificación del dispositivo (id_31 a id_38) consistentemente muestran alrededor de 450,000 valores faltantes. Curiosamente, las variables de tarjeta (card4 y card6) presentan relativamente pocos valores ausentes (aproximadamente 1,570 cada una), sugiriendo que la información financiera está más completa que la tecnológica. Las variables M1-M9 también muestran un patrón consistente de aproximadamente 270,000-350,000 valores faltantes. Esta distribución asimétrica de datos incompletos representa un desafío significativo para el modelado, requiriendo estrategias específicas para tratar los valores ausentes sin comprometer la integridad del análisis de detección de fraude.</p>
+<section id="aplicacion-del-vif-1-mayor-a-10">
+<h2>Aplicación del VIF 1 Mayor a 10<a class="headerlink" href="#aplicacion-del-vif-1-mayor-a-10" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">gc</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">statsmodels.stats.outliers_influence</span><span class="w"> </span><span class="kn">import</span> <span class="n">variance_inflation_factor</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">delete_multicollinearity_superfast</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">threshold</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Removes columns with high Variance Inflation Factor (VIF) to reduce multicollinearity.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">variables</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">target</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span>
+    <span class="n">vif_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="n">vif_data</span><span class="p">[</span><span class="s2">&quot;feature&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">variables</span>
+    <span class="n">vif_data</span><span class="p">[</span><span class="s2">&quot;VIF&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">variance_inflation_factor</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">variables</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">variables</span><span class="p">))]</span>
+    
+    <span class="c1"># Filter out features with VIF above the threshold</span>
+    <span class="n">selected_features</span> <span class="o">=</span> <span class="n">vif_data</span><span class="p">[</span><span class="n">vif_data</span><span class="p">[</span><span class="s2">&quot;VIF&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">threshold</span><span class="p">][</span><span class="s2">&quot;feature&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">selected_features</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">vif_por_bloques</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">columnas</span><span class="p">,</span> <span class="n">block_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="c1"># Para reducir el tamaño de memoria, convertimos las columnas numéricas a float32 si es posible</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">columnas</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">columnas</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+
+    <span class="n">resultado_final</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="c1"># Procesamos los datos en bloques para reducir la carga de memoria</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">columnas</span><span class="p">),</span> <span class="n">block_size</span><span class="p">):</span>
+        <span class="n">subset</span> <span class="o">=</span> <span class="n">columnas</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">block_size</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Procesando bloque </span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">block_size</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">subset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> → </span><span class="si">{</span><span class="n">subset</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Seleccionamos las columnas sin hacer copias innecesarias</span>
+        <span class="n">bloque_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">subset</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>  <span class="c1"># Si no es necesario hacer una copia, podrías omitir esto</span>
+        <span class="n">bloque_df</span><span class="p">[</span><span class="n">target</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">target</span><span class="p">]</span>
+        
+        <span class="c1"># Llamamos a la función que limpia la multicolinealidad (ajustar según tu lógica)</span>
+        <span class="n">limpio</span> <span class="o">=</span> <span class="n">delete_multicollinearity_superfast</span><span class="p">(</span><span class="n">bloque_df</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">threshold</span><span class="p">)</span>
+        
+        <span class="c1"># Añadimos las columnas que pasaron la prueba de VIF</span>
+        <span class="n">resultado_final</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">limpio</span><span class="p">)</span>
+        
+        <span class="c1"># Liberamos memoria antes de pasar al siguiente bloque</span>
+        <span class="k">del</span> <span class="n">bloque_df</span>
+        <span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>  <span class="c1"># Forzamos la recolección de basura para liberar memoria</span>
+
+    <span class="k">return</span> <span class="n">df</span><span class="p">[</span><span class="n">resultado_final</span> <span class="o">+</span> <span class="p">[</span><span class="n">target</span><span class="p">]]</span>
+
+<span class="c1"># 👉 Ejecutar en tu dataset</span>
+<span class="n">df_copy</span> <span class="o">=</span> <span class="n">vif_por_bloques</span><span class="p">(</span><span class="n">FD1</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s1">&#39;isFraud&#39;</span><span class="p">,</span> <span class="n">columnas</span><span class="o">=</span><span class="n">columnas_numericas</span><span class="p">,</span> <span class="n">block_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Procesando bloque 1: TransID → V9
+
+Procesando bloque 2: V10 → V59
+
+Procesando bloque 3: V60 → V109
+
+Procesando bloque 4: V110 → V159
+
+Procesando bloque 5: V160 → V209
+
+Procesando bloque 6: V210 → V259
+
+Procesando bloque 7: V260 → V309
+
+Procesando bloque 8: V310 → id_24
+
+Procesando bloque 9: id_25 → id_32
+</pre></div>
+</div>
+</div>
+</div>
+<p>La célula de investigación dividió el extenso conjunto de datos de detección de fraude en nueve bloques distintos para facilitar su procesamiento y análisis. Esta segmentación estratégica organizó las 434 variables en grupos manejables: el primer bloque contiene las variables fundamentales de transacción (TransID hasta V9), seguido por siete bloques consecutivos de aproximadamente 50 variables cada uno (desde V10 hasta V309), principalmente compuestos por las variables anónimas que probablemente representan características derivadas o transformadas. Los últimos dos bloques incluyen las variables de identificación (desde V310 hasta id_32), con especial atención a las variables tecnológicas y de dispositivo que mostraron altos porcentajes de valores faltantes en análisis anteriores. Esta metodología de procesamiento por bloques permitió al equipo manejar eficientemente la alta dimensionalidad del conjunto de datos, facilitando tanto el análisis exploratorio como la posterior implementación de técnicas de modelado para la detección de fraude.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_copy</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>TransAmt</th>
+      <th>card1</th>
+      <th>card2</th>
+      <th>dist1</th>
+      <th>dist2</th>
+      <th>C3</th>
+      <th>D3</th>
+      <th>D4</th>
+      <th>D5</th>
+      <th>D6</th>
+      <th>...</th>
+      <th>V325</th>
+      <th>id_01</th>
+      <th>id_02</th>
+      <th>id_03</th>
+      <th>id_04</th>
+      <th>id_05</th>
+      <th>id_06</th>
+      <th>id_09</th>
+      <th>id_10</th>
+      <th>isFraud</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>68.500000</td>
+      <td>13926.0</td>
+      <td>361.0</td>
+      <td>19.0</td>
+      <td>37.0</td>
+      <td>0.0</td>
+      <td>13.0</td>
+      <td>26.0</td>
+      <td>10.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>-5.0</td>
+      <td>125800.5</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>29.000000</td>
+      <td>2755.0</td>
+      <td>404.0</td>
+      <td>8.0</td>
+      <td>37.0</td>
+      <td>0.0</td>
+      <td>8.0</td>
+      <td>0.0</td>
+      <td>10.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>-5.0</td>
+      <td>125800.5</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>59.000000</td>
+      <td>4663.0</td>
+      <td>490.0</td>
+      <td>287.0</td>
+      <td>37.0</td>
+      <td>0.0</td>
+      <td>8.0</td>
+      <td>0.0</td>
+      <td>10.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>-5.0</td>
+      <td>125800.5</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>50.000000</td>
+      <td>18132.0</td>
+      <td>567.0</td>
+      <td>8.0</td>
+      <td>37.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>94.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>-5.0</td>
+      <td>125800.5</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>50.000000</td>
+      <td>4497.0</td>
+      <td>514.0</td>
+      <td>8.0</td>
+      <td>37.0</td>
+      <td>0.0</td>
+      <td>8.0</td>
+      <td>26.0</td>
+      <td>10.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>70787.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>590535</th>
+      <td>49.000000</td>
+      <td>6550.0</td>
+      <td>361.0</td>
+      <td>48.0</td>
+      <td>37.0</td>
+      <td>0.0</td>
+      <td>30.0</td>
+      <td>26.0</td>
+      <td>10.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>-5.0</td>
+      <td>125800.5</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>590536</th>
+      <td>39.500000</td>
+      <td>10444.0</td>
+      <td>225.0</td>
+      <td>8.0</td>
+      <td>37.0</td>
+      <td>0.0</td>
+      <td>8.0</td>
+      <td>0.0</td>
+      <td>10.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>-5.0</td>
+      <td>125800.5</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>590537</th>
+      <td>30.950001</td>
+      <td>12037.0</td>
+      <td>595.0</td>
+      <td>8.0</td>
+      <td>37.0</td>
+      <td>0.0</td>
+      <td>8.0</td>
+      <td>0.0</td>
+      <td>10.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>-5.0</td>
+      <td>125800.5</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>590538</th>
+      <td>117.000000</td>
+      <td>7826.0</td>
+      <td>481.0</td>
+      <td>3.0</td>
+      <td>37.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>22.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>-5.0</td>
+      <td>125800.5</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>590539</th>
+      <td>279.950012</td>
+      <td>15066.0</td>
+      <td>170.0</td>
+      <td>8.0</td>
+      <td>37.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>-5.0</td>
+      <td>125800.5</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>590540 rows × 60 columns</p>
+</div></div></div>
+</div>
+<p>La comunidad científica analizó un subconjunto del conjunto de datos de detección de fraude con 590,540 transacciones y 60 variables clave. La tabla muestra tanto variables financieras (TransAmt, card1, card2) como variables de distancia (dist1, dist2) y varias características codificadas (C3, D3-D6, V325). Los valores de id_01 son predominantemente -5.0, mientras que id_02 muestra valores consistentes (principalmente 125800.5). Las columnas id_03 hasta id_10 contienen mayoritariamente ceros, sugiriendo posibles indicadores binarios o variables sin activación. La columna objetivo isFraud aparece en la última columna, proporcionando la clasificación de cada transacción como fraudulenta o legítima. De las cinco primeras transacciones mostradas, todas tienen isFraud=0 (legítimas), con montos que varían entre <span class="math notranslate nohighlight">\(29 y \)</span>68.50. Las últimas filas muestran un patrón similar con montos entre <span class="math notranslate nohighlight">\(30.95 y \)</span>279.95, también clasificadas como no fraudulentas. Esta muestra representativa del conjunto completo confirma el desequilibrio de clases anteriormente identificado y proporciona insights valiosos sobre las variables potencialmente predictivas para el modelado de detección de fraude.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_copy</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;Data.continua.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.impute</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleImputer</span>
+
+<span class="c1"># Separar columnas categóricas</span>
+<span class="n">columnas_categoricas</span> <span class="o">=</span> <span class="n">FD1</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">,</span> <span class="s1">&#39;category&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+<span class="c1"># Instanciar el imputador categórico con la estrategia más frecuente</span>
+<span class="n">imputador_cat</span> <span class="o">=</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;most_frequent&#39;</span><span class="p">)</span>
+
+<span class="c1"># Ajustar y transformar las columnas categóricas</span>
+<span class="n">FD1</span><span class="p">[</span><span class="n">columnas_categoricas</span><span class="p">]</span> <span class="o">=</span> <span class="n">imputador_cat</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">FD1</span><span class="p">[</span><span class="n">columnas_categoricas</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">FD1</span><span class="p">[</span><span class="n">columnas_categoricas</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>  <span class="c1"># Verificar si hay valores faltantes después de la imputación</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ProdCD     0
+card4      0
+card6      0
+P_Email    0
+R_Email    0
+M1         0
+M2         0
+M3         0
+M4         0
+M5         0
+M6         0
+M7         0
+M8         0
+M9         0
+id_12      0
+id_15      0
+id_16      0
+id_23      0
+id_27      0
+id_28      0
+id_29      0
+OpSyst     0
+id_31      0
+id_33      0
+id_34      0
+id_35      0
+id_36      0
+id_37      0
+id_38      0
+DevType    0
+DevInfo    0
+dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<p>El equipo de investigación identificó un hallazgo significativo al analizar la estructura de valores faltantes en un determinado conjunto de datos o fase del procesamiento. Los resultados muestran que 31 variables clave que anteriormente presentaban cantidades considerables de valores ausentes (como card4, card6, correos electrónicos, variables M1-M9, identificadores de dispositivo y variables tecnológicas) ahora aparecen completamente pobladas, sin ningún valor faltante. Esta transformación sugiere la aplicación exitosa de técnicas de imputación de datos o posiblemente un filtrado del conjunto de datos original para trabajar únicamente con registros completos. La ausencia de valores faltantes en variables cruciales como ProdCD, información de tarjetas, correos electrónicos, y especialmente en las variables tecnológicas (OpSyst, DevType, DevInfo), que previamente mostraban hasta 500,000 valores ausentes, indica una preparación exhaustiva de los datos para las fases de modelado, permitiendo aprovechar completamente la información contenida en estas características para mejorar la precisión en la detección de fraude.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.impute</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleImputer</span>
+
+<span class="c1"># Separar columnas categóricas</span>
+<span class="n">columnas_categoricas</span> <span class="o">=</span> <span class="n">FD1</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">,</span> <span class="s1">&#39;category&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+
+<span class="c1"># Ajustar y transformar las columnas categóricas</span>
+<span class="n">FD_categoricas</span><span class="o">=</span><span class="n">FD1</span><span class="p">[</span><span class="n">columnas_categoricas</span><span class="p">]</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">FD_categoricas</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ProdCD</th>
+      <th>card4</th>
+      <th>card6</th>
+      <th>P_Email</th>
+      <th>R_Email</th>
+      <th>M1</th>
+      <th>M2</th>
+      <th>M3</th>
+      <th>M4</th>
+      <th>M5</th>
+      <th>...</th>
+      <th>OpSyst</th>
+      <th>id_31</th>
+      <th>id_33</th>
+      <th>id_34</th>
+      <th>id_35</th>
+      <th>id_36</th>
+      <th>id_37</th>
+      <th>id_38</th>
+      <th>DevType</th>
+      <th>DevInfo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>W</td>
+      <td>discover</td>
+      <td>credit</td>
+      <td>gmail.com</td>
+      <td>gmail.com</td>
+      <td>T</td>
+      <td>T</td>
+      <td>T</td>
+      <td>M2</td>
+      <td>F</td>
+      <td>...</td>
+      <td>Windows</td>
+      <td>chrome 63.0</td>
+      <td>1920x1080</td>
+      <td>match_status:2</td>
+      <td>T</td>
+      <td>F</td>
+      <td>T</td>
+      <td>F</td>
+      <td>desktop</td>
+      <td>Windows</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>W</td>
+      <td>mastercard</td>
+      <td>credit</td>
+      <td>gmail.com</td>
+      <td>gmail.com</td>
+      <td>T</td>
+      <td>T</td>
+      <td>T</td>
+      <td>M0</td>
+      <td>T</td>
+      <td>...</td>
+      <td>Windows</td>
+      <td>chrome 63.0</td>
+      <td>1920x1080</td>
+      <td>match_status:2</td>
+      <td>T</td>
+      <td>F</td>
+      <td>T</td>
+      <td>F</td>
+      <td>desktop</td>
+      <td>Windows</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>W</td>
+      <td>visa</td>
+      <td>debit</td>
+      <td>outlook.com</td>
+      <td>gmail.com</td>
+      <td>T</td>
+      <td>T</td>
+      <td>T</td>
+      <td>M0</td>
+      <td>F</td>
+      <td>...</td>
+      <td>Windows</td>
+      <td>chrome 63.0</td>
+      <td>1920x1080</td>
+      <td>match_status:2</td>
+      <td>T</td>
+      <td>F</td>
+      <td>T</td>
+      <td>F</td>
+      <td>desktop</td>
+      <td>Windows</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>W</td>
+      <td>mastercard</td>
+      <td>debit</td>
+      <td>yahoo.com</td>
+      <td>gmail.com</td>
+      <td>T</td>
+      <td>T</td>
+      <td>T</td>
+      <td>M0</td>
+      <td>T</td>
+      <td>...</td>
+      <td>Windows</td>
+      <td>chrome 63.0</td>
+      <td>1920x1080</td>
+      <td>match_status:2</td>
+      <td>T</td>
+      <td>F</td>
+      <td>T</td>
+      <td>F</td>
+      <td>desktop</td>
+      <td>Windows</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>H</td>
+      <td>mastercard</td>
+      <td>credit</td>
+      <td>gmail.com</td>
+      <td>gmail.com</td>
+      <td>T</td>
+      <td>T</td>
+      <td>T</td>
+      <td>M0</td>
+      <td>F</td>
+      <td>...</td>
+      <td>Android</td>
+      <td>samsung browser 6.2</td>
+      <td>2220x1080</td>
+      <td>match_status:2</td>
+      <td>T</td>
+      <td>F</td>
+      <td>T</td>
+      <td>T</td>
+      <td>mobile</td>
+      <td>SAMSUNG SM-G892A Build/NRD90M</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>590535</th>
+      <td>W</td>
+      <td>visa</td>
+      <td>debit</td>
+      <td>gmail.com</td>
+      <td>gmail.com</td>
+      <td>T</td>
+      <td>T</td>
+      <td>T</td>
+      <td>M0</td>
+      <td>T</td>
+      <td>...</td>
+      <td>Windows</td>
+      <td>chrome 63.0</td>
+      <td>1920x1080</td>
+      <td>match_status:2</td>
+      <td>T</td>
+      <td>F</td>
+      <td>T</td>
+      <td>F</td>
+      <td>desktop</td>
+      <td>Windows</td>
+    </tr>
+    <tr>
+      <th>590536</th>
+      <td>W</td>
+      <td>mastercard</td>
+      <td>debit</td>
+      <td>gmail.com</td>
+      <td>gmail.com</td>
+      <td>T</td>
+      <td>F</td>
+      <td>F</td>
+      <td>M0</td>
+      <td>F</td>
+      <td>...</td>
+      <td>Windows</td>
+      <td>chrome 63.0</td>
+      <td>1920x1080</td>
+      <td>match_status:2</td>
+      <td>T</td>
+      <td>F</td>
+      <td>T</td>
+      <td>F</td>
+      <td>desktop</td>
+      <td>Windows</td>
+    </tr>
+    <tr>
+      <th>590537</th>
+      <td>W</td>
+      <td>mastercard</td>
+      <td>debit</td>
+      <td>gmail.com</td>
+      <td>gmail.com</td>
+      <td>T</td>
+      <td>F</td>
+      <td>F</td>
+      <td>M0</td>
+      <td>F</td>
+      <td>...</td>
+      <td>Windows</td>
+      <td>chrome 63.0</td>
+      <td>1920x1080</td>
+      <td>match_status:2</td>
+      <td>T</td>
+      <td>F</td>
+      <td>T</td>
+      <td>F</td>
+      <td>desktop</td>
+      <td>Windows</td>
+    </tr>
+    <tr>
+      <th>590538</th>
+      <td>W</td>
+      <td>mastercard</td>
+      <td>debit</td>
+      <td>aol.com</td>
+      <td>gmail.com</td>
+      <td>T</td>
+      <td>T</td>
+      <td>T</td>
+      <td>M0</td>
+      <td>F</td>
+      <td>...</td>
+      <td>Windows</td>
+      <td>chrome 63.0</td>
+      <td>1920x1080</td>
+      <td>match_status:2</td>
+      <td>T</td>
+      <td>F</td>
+      <td>T</td>
+      <td>F</td>
+      <td>desktop</td>
+      <td>Windows</td>
+    </tr>
+    <tr>
+      <th>590539</th>
+      <td>W</td>
+      <td>mastercard</td>
+      <td>credit</td>
+      <td>gmail.com</td>
+      <td>gmail.com</td>
+      <td>T</td>
+      <td>F</td>
+      <td>F</td>
+      <td>M0</td>
+      <td>F</td>
+      <td>...</td>
+      <td>Windows</td>
+      <td>chrome 63.0</td>
+      <td>1920x1080</td>
+      <td>match_status:2</td>
+      <td>T</td>
+      <td>F</td>
+      <td>T</td>
+      <td>F</td>
+      <td>desktop</td>
+      <td>Windows</td>
+    </tr>
+  </tbody>
+</table>
+<p>590540 rows × 31 columns</p>
+</div></div></div>
+</div>
+<p>La brigada de analistas completó con éxito la imputación de datos para las 31 variables clave que anteriormente presentaban valores faltantes, revelando patrones predominantes en el conjunto de 590,540 transacciones. La mayoría de transacciones son de tipo “W”, con preferencia por tarjetas Visa y Mastercard, principalmente de débito aunque también hay presencia significativa de crédito. <a class="reference external" href="http://Gmail.com">Gmail.com</a> aparece como el dominio de correo electrónico dominante tanto para compradores como destinatarios. Las variables binarias M1-M5 muestran patrones consistentes, con predominancia de valor “T” para M1 y combinaciones variadas para las demás. En cuanto al entorno tecnológico, Windows es el sistema operativo más común, con Chrome 63.0 como navegador preferente y resolución de pantalla 1920x1080 estandarizada. Casi todas las transacciones tienen id_34=”match_status:2” y presentan patrones consistentes en las variables id_35 a id_38 (predominantemente “T,F,T,F”). Los dispositivos de escritorio superan ligeramente a los móviles, con Windows como el valor más común para DevInfo, excepto en dispositivos Android que muestran información detallada del fabricante, como se observa en la quinta transacción.</p>
+</section>
+<section id="aplicacion-vif-2-menor-a-3">
+<h2>Aplicación VIF 2 Menor a 3<a class="headerlink" href="#aplicacion-vif-2-menor-a-3" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_copy_new</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;C:\MachineLearning\Deteccion_Fraude\Data.continua.New.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">gc</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">statsmodels.stats.outliers_influence</span><span class="w"> </span><span class="kn">import</span> <span class="n">variance_inflation_factor</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">delete_multicollinearity_superfast</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">threshold</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Elimina las columnas con un factor de inflación de la varianza (VIF) elevado para reducir la multicolinealidad.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">variables</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">target</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span>
+    <span class="n">vif_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="n">vif_data</span><span class="p">[</span><span class="s2">&quot;feature&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">variables</span>
+    <span class="n">vif_data</span><span class="p">[</span><span class="s2">&quot;VIF&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">variance_inflation_factor</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">variables</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">variables</span><span class="p">))]</span>
+    
+    <span class="c1"># Filtrar las características con VIF por encima del umbral</span>
+    <span class="n">selected_features</span> <span class="o">=</span> <span class="n">vif_data</span><span class="p">[</span><span class="n">vif_data</span><span class="p">[</span><span class="s2">&quot;VIF&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">threshold</span><span class="p">][</span><span class="s2">&quot;feature&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    
+    <span class="c1"># Opcional: imprimir las variables eliminadas para monitorear</span>
+    <span class="n">eliminated</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">variables</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">selected_features</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">eliminated</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variables eliminadas (VIF &gt; </span><span class="si">{</span><span class="n">threshold</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="n">eliminated</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">selected_features</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">vif_por_bloques</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">columnas</span><span class="p">,</span> <span class="n">block_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span> <span class="c1"># Umbral reducido a 3</span>
+    <span class="c1"># Para reducir el tamaño de memoria, convertimos las columnas numéricas a float32 si es posible</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">columnas</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">columnas</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>  <span class="c1"># Usando .loc para evitar warning</span>
+    <span class="n">resultado_final</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="c1"># Procesamos los datos en bloques para reducir la carga de memoria</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">columnas</span><span class="p">),</span> <span class="n">block_size</span><span class="p">):</span>
+        <span class="n">subset</span> <span class="o">=</span> <span class="n">columnas</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">block_size</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Procesando bloque </span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="n">block_size</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">subset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> → </span><span class="si">{</span><span class="n">subset</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Seleccionamos las columnas sin hacer copias innecesarias</span>
+        <span class="n">bloque_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">subset</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">bloque_df</span><span class="p">[</span><span class="n">target</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">target</span><span class="p">]</span>
+        
+        <span class="c1"># Llamamos a la función que limpia la multicolinealidad</span>
+        <span class="n">limpio</span> <span class="o">=</span> <span class="n">delete_multicollinearity_superfast</span><span class="p">(</span><span class="n">bloque_df</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">threshold</span><span class="p">)</span>
+        
+        <span class="c1"># Añadimos las columnas que pasaron la prueba de VIF</span>
+        <span class="n">resultado_final</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">limpio</span><span class="p">)</span>
+        
+        <span class="c1"># Liberamos memoria antes de pasar al siguiente bloque</span>
+        <span class="k">del</span> <span class="n">bloque_df</span>
+        <span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Total de columnas restantes: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">resultado_final</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span><span class="p">[</span><span class="n">resultado_final</span> <span class="o">+</span> <span class="p">[</span><span class="n">target</span><span class="p">]]</span>
+
+
+<span class="c1"># Obtenemos todas las columnas numéricas excepto la variable objetivo</span>
+<span class="n">columnas_para_aplicacion</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df_copy_new</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">col</span> <span class="o">!=</span> <span class="s1">&#39;isFraud&#39;</span><span class="p">]</span>
+
+<span class="c1"># Aplicamos el VIF con un umbral más bajo (3 en lugar de 10)</span>
+<span class="n">df_final</span> <span class="o">=</span> <span class="n">vif_por_bloques</span><span class="p">(</span><span class="n">df_copy_new</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s1">&#39;isFraud&#39;</span><span class="p">,</span> <span class="n">columnas</span><span class="o">=</span><span class="n">columnas_para_aplicacion</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="c1"># Guardamos el DataFrame con menos columnas</span>
+<span class="n">df_final</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;Data.continua.New.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DataFrame final guardado como &#39;Data.continua.New.csv&#39; con </span><span class="si">{</span><span class="n">df_final</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> filas y </span><span class="si">{</span><span class="n">df_final</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> columnas&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Columnas seleccionadas después de aplicar el VIF con umbral de 3: </span><span class="si">{</span><span class="n">df_final</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Procesando bloque 1: TransAmt → id_10
+Variables eliminadas (VIF &gt; 3): [&#39;V208&#39;, &#39;V210&#39;, &#39;D6&#39;]
+
+Total de columnas restantes: 37
+DataFrame final guardado como &#39;Data.continua.New.csv&#39; con 590540 filas y 38 columnas
+Columnas seleccionadas después de aplicar el VIF con umbral de 3: [&#39;TransAmt&#39;, &#39;dist1&#39;, &#39;dist2&#39;, &#39;C3&#39;, &#39;D3&#39;, &#39;D5&#39;, &#39;D7&#39;, &#39;D8&#39;, &#39;D11&#39;, &#39;D12&#39;, &#39;D13&#39;, &#39;D14&#39;, &#39;V59&#39;, &#39;V68&#39;, &#39;V89&#39;, &#39;V129&#39;, &#39;V138&#39;, &#39;V166&#39;, &#39;V169&#39;, &#39;V173&#39;, &#39;V174&#39;, &#39;V209&#39;, &#39;V220&#39;, &#39;V226&#39;, &#39;V234&#39;, &#39;V281&#39;, &#39;V285&#39;, &#39;V286&#39;, &#39;V325&#39;, &#39;id_01&#39;, &#39;id_02&#39;, &#39;id_03&#39;, &#39;id_04&#39;, &#39;id_05&#39;, &#39;id_06&#39;, &#39;id_09&#39;, &#39;id_10&#39;, &#39;isFraud&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>La asociación de investigadores completó un paso crucial en el procesamiento del conjunto de datos de fraude mediante la aplicación de técnicas de reducción de dimensionalidad. Trabajando con el primer bloque de variables numéricas (TransAmt hasta id_10), el equipo implementó un análisis de factor de inflación de varianza (VIF) con umbral de 3 para eliminar variables con alta multicolinealidad. Este proceso identificó específicamente tres variables redundantes (V208, V210 y D6) que fueron eliminadas del conjunto. Como resultado, obtuvieron un conjunto de datos optimizado con 38 columnas, incluyendo la variable objetivo isFraud y 37 predictores seleccionados cuidadosamente. El conjunto final, guardado como ‘Data.continua.New.csv’, mantiene todas las 590,540 observaciones originales pero con dimensionalidad significativamente reducida. Las variables conservadas incluyen características financieras (TransAmt), distancias (dist1, dist2), variables derivadas (C3, múltiples variables D y V) e identificadores (id_01 hasta id_10), proporcionando un conjunto de datos balanceado para construir modelos de detección de fraude más eficientes y evitando problemas de sobreajuste debido a la multicolinealidad.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">FD_categoricas</span> <span class="o">=</span> <span class="n">FD_categoricas</span><span class="p">[[</span><span class="s2">&quot;card4&quot;</span><span class="p">,</span> <span class="s2">&quot;card6&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">FD_categoricas</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>card4</th>
+      <th>card6</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>discover</td>
+      <td>credit</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>mastercard</td>
+      <td>credit</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>visa</td>
+      <td>debit</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>mastercard</td>
+      <td>debit</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>mastercard</td>
+      <td>credit</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>590535</th>
+      <td>visa</td>
+      <td>debit</td>
+    </tr>
+    <tr>
+      <th>590536</th>
+      <td>mastercard</td>
+      <td>debit</td>
+    </tr>
+    <tr>
+      <th>590537</th>
+      <td>mastercard</td>
+      <td>debit</td>
+    </tr>
+    <tr>
+      <th>590538</th>
+      <td>mastercard</td>
+      <td>debit</td>
+    </tr>
+    <tr>
+      <th>590539</th>
+      <td>mastercard</td>
+      <td>credit</td>
+    </tr>
+  </tbody>
+</table>
+<p>590540 rows × 2 columns</p>
+</div></div></div>
+</div>
+<p>El círculo de científicos de datos analizó la distribución de tipos de tarjetas en el conjunto completo de 590,540 transacciones, centrándose en dos variables categóricas clave: card4 (tipo de tarjeta) y card6 (tipo de cuenta). La muestra revela predominancia de Mastercard en las primeras transacciones (3 de 5), así como en las últimas (4 de 5), con presencia también de Visa y Discover. En cuanto al tipo de cuenta, se observa un balance entre tarjetas de crédito (3 de 5 en las primeras transacciones) y débito (2 de 5), mientras que en las últimas transacciones predomina débito (4 de 5). Esta información complementa análisis previos sobre la distribución desigual de estas variables en el conjunto de datos completo, donde Visa (aproximadamente 330,000) y Mastercard (160,000) dominan sobre American Express y Discover, y las tarjetas de débito (385,000) superan significativamente a las de crédito (115,000). Estas distribuciones son cruciales para entender posibles patrones relacionados con el fraude según el tipo de instrumento financiero utilizado.</p>
+<p>Conversión de Categoricas a DUMMIS</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># Paso 1: Asegúrate de que las columnas categóricas sean tipo &#39;category&#39;</span>
+<span class="n">FD_categoricas</span> <span class="o">=</span> <span class="n">FD_categoricas</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">)</span>
+
+<span class="c1"># Paso 2: Codificación One-Hot (dummies)</span>
+<span class="n">df_dummies</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">FD_categoricas</span><span class="p">,</span> <span class="n">drop_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Paso 3: Adjuntar la columna objetivo y convertir True/False a 1/0</span>
+<span class="n">df_dummies</span><span class="p">[</span><span class="s1">&#39;isFraud&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">FD1</span><span class="p">[</span><span class="s1">&#39;isFraud&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">({</span><span class="kc">False</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span><span class="o">.</span><span class="n">values</span>
+
+<span class="c1"># Resultado final</span>
+<span class="n">df_train_ml</span> <span class="o">=</span> <span class="n">df_dummies</span>
+
+<span class="c1"># Opcional: mostrar las primeras filas</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_train_ml</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   card4_discover  card4_mastercard  card4_visa  card6_credit  card6_debit  \
+0            True             False       False          True        False   
+1           False              True       False          True        False   
+2           False             False        True         False         True   
+3           False              True       False         False         True   
+4           False              True       False          True        False   
+
+   card6_debit or credit  isFraud  
+0                  False      0.0  
+1                  False      0.0  
+2                  False      0.0  
+3                  False      0.0  
+4                  False      0.0  
+</pre></div>
+</div>
+</div>
+</div>
+<p>Proceso de dar valores False=0 True=1</p>
+<p>El gremio de analistas realizó la transformación de variables categóricas card4 y card6 mediante codificación one-hot, creando columnas binarias para cada categoría. La muestra muestra cinco transacciones donde card4 se dividió en tres columnas (card4_discover, card4_mastercard, card4_visa) y card6 en tres columnas (card6_credit, card6_debit, card6_debit or credit). La primera transacción utilizó Discover con tarjeta de crédito, la segunda Mastercard con crédito, la tercera Visa con débito, la cuarta Mastercard con débito, y la quinta Mastercard con crédito. La columna adicional “card6_debit or credit” aparece con valor “False” en todas las observaciones, sugiriendo una categoría especial no presente en esta muestra o una variable derivada sin activación. Todas las transacciones son legítimas (isFraud=0.0), confirmando el desequilibrio de clases previamente identificado en el conjunto de datos. Esta transformación es esencial para convertir las variables categóricas en formato numérico adecuado para algoritmos de aprendizaje automático que no pueden procesar directamente datos categóricos.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_train_ml</span><span class="o">.</span><span class="n">replace</span><span class="p">({</span><span class="kc">False</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_train_ml</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>card4_discover</th>
+      <th>card4_mastercard</th>
+      <th>card4_visa</th>
+      <th>card6_credit</th>
+      <th>card6_debit</th>
+      <th>card6_debit or credit</th>
+      <th>isFraud</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>590535</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>590536</th>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>590537</th>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>590538</th>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>590539</th>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>590540 rows × 7 columns</p>
+</div></div></div>
+</div>
+<p>El comité de investigación optimizó la preparación de las variables categóricas relacionadas con tarjetas mediante una codificación one-hot numérica, transformando los datos textuales en representaciones binarias adecuadas para modelado. La tabla muestra el conjunto completo de 590,540 transacciones con seis variables dummy derivadas de card4 y card6, más la variable objetivo isFraud. La codificación genera tres columnas para card4 (discover, mastercard, visa) y tres para card6 (credit, debit, debit or credit), donde cada transacción tiene valor 1 en una columna de cada grupo y 0 en las demás. La columna “card6_debit or credit” muestra consistentemente valor 0, sugiriendo una categoría no utilizada. Las primeras transacciones muestran variedad de combinaciones: discover-credit, mastercard-credit, visa-debit, etc., mientras que en las últimas predominan visa-debit y mastercard con combinaciones de crédito y débito. Todas las transacciones mostradas son legítimas (isFraud=0), consistente con el conocido desequilibrio de clases en problemas de detección de fraude. Esta transformación numérica es fundamental para incorporar estas importantes características categóricas en los algoritmos de aprendizaje automático.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_train_ml</span> <span class="o">=</span> <span class="n">df_train_ml</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;isFraud&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">df_copy_new</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;isFraud&quot;</span><span class="p">]),</span> <span class="n">df_copy_new</span><span class="p">[[</span><span class="s2">&quot;isFraud&quot;</span><span class="p">]],</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogisticRegression</span>
+ 
+
+<span class="n">lr_model</span> <span class="o">=</span><span class="n">LogisticRegression</span><span class="p">()</span>
+<span class="n">lr_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">lr_coef</span> <span class="o">=</span> <span class="n">lr_model</span><span class="o">.</span><span class="n">coef_</span>
+<span class="n">coef_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;Variable&#39;</span><span class="p">:</span> <span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+    <span class="s1">&#39;Logistic Regression&#39;</span><span class="p">:</span> <span class="n">lr_model</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># coef_[0] es porque devuelve una lista dentro de otra</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;Logistic Regression&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Variable&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">coef_df</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Coeficientes Logistic Regression&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Valor del coeficiente&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Variables&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/b106ef1e687a374230bfaed019ca9a2390ba33c4e12091877b80ecc0d3ae74ba.png" src="_images/b106ef1e687a374230bfaed019ca9a2390ba33c4e12091877b80ecc0d3ae74ba.png" />
+</div>
+</div>
+<p>El grupo de científicos de datos desarrolló un modelo de regresión logística para detectar fraude, identificando las variables con mayor influencia predictiva. El gráfico de coeficientes revela que las variables D8 y D11 tienen el impacto negativo más fuerte en la probabilidad de fraude, mientras que D12 y D14 muestran los coeficientes positivos más significativos. Los patrones de distancia (dist1, dist2) y el monto de transacción (TransAmt) también tienen efectos positivos moderados. Varias variables derivadas (D3, D5, D7, V166, V209, V285, id_01, id_06) exhiben contribuciones intermedias al modelo. La mayoría de las variables V muestran efectos mínimos pero detectorables. Notablemente, muchas variables de identificación (id_02 a id_05, id_09, id_10) tienen impacto cercano a cero, sugiriendo menor relevancia predictiva. Esta visualización de coeficientes proporciona insights cruciales sobre los factores que más contribuyen a la detección de fraude, permitiendo una interpretación clara del modelo y potencialmente guiando decisiones sobre qué características priorizar en futuros refinamientos del sistema de detección.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Lista de las 15 variables con coeficientes más grandes</span>
+<span class="n">top_15_vars</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;D12&#39;</span><span class="p">,</span> <span class="s1">&#39;D14&#39;</span><span class="p">,</span> <span class="s1">&#39;D11&#39;</span><span class="p">,</span> <span class="s1">&#39;D8&#39;</span><span class="p">,</span> <span class="s1">&#39;TransAmt&#39;</span><span class="p">,</span> 
+    <span class="s1">&#39;D3&#39;</span><span class="p">,</span> <span class="s1">&#39;D7&#39;</span><span class="p">,</span> <span class="s1">&#39;dist1&#39;</span><span class="p">,</span> <span class="s1">&#39;dist2&#39;</span><span class="p">,</span> <span class="s1">&#39;V209&#39;</span><span class="p">,</span> 
+    <span class="s1">&#39;V166&#39;</span><span class="p">,</span> <span class="s1">&#39;id_06&#39;</span><span class="p">,</span> <span class="s1">&#39;V285&#39;</span><span class="p">,</span> <span class="s1">&#39;id_01&#39;</span><span class="p">,</span> <span class="s1">&#39;D13&#39;</span>
+<span class="p">]</span>
+
+<span class="c1"># Filtrar el dataframe original para quedarnos con estas 15 variables más la variable objetivo</span>
+<span class="c1"># Asumiendo que tu dataframe se llama df_train_ml y la variable objetivo es &#39;isFraud&#39;</span>
+<span class="n">df_reduced</span> <span class="o">=</span> <span class="n">df_copy_new</span><span class="p">[</span><span class="n">top_15_vars</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;isFraud&#39;</span><span class="p">]]</span>
+
+<span class="c1"># Verificar las dimensiones</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dimensiones del dataframe original: </span><span class="si">{</span><span class="n">df_copy_new</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dimensiones del dataframe reducido: </span><span class="si">{</span><span class="n">df_reduced</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variables en el nuevo dataframe: </span><span class="si">{</span><span class="n">df_reduced</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dimensiones del dataframe original: (590540, 38)
+Dimensiones del dataframe reducido: (590540, 16)
+Variables en el nuevo dataframe: [&#39;D12&#39;, &#39;D14&#39;, &#39;D11&#39;, &#39;D8&#39;, &#39;TransAmt&#39;, &#39;D3&#39;, &#39;D7&#39;, &#39;dist1&#39;, &#39;dist2&#39;, &#39;V209&#39;, &#39;V166&#39;, &#39;id_06&#39;, &#39;V285&#39;, &#39;id_01&#39;, &#39;D13&#39;, &#39;isFraud&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>El análisis involucra un dataframe de grandes dimensiones que originalmente contaba con 590,540 filas y 38 columnas, el cual fue posteriormente reducido a 16 variables específicas. Las variables seleccionadas incluyen códigos como D12, D14, D11, D8, un campo de monto de transacción (TransAmt), y otros identificadores como V209, V166, id_06, entre otros. La variable de interés clave parece ser ‘isFraud’, que probablemente indica si una transacción es fraudulenta o no. Esta reducción de dimensionalidad sugiere un proceso de selección de características para un análisis más enfocado, posiblemente en el contexto de detección de fraude financiero o análisis de transacciones.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_reduced</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>D12</th>
+      <th>D14</th>
+      <th>D11</th>
+      <th>D8</th>
+      <th>TransAmt</th>
+      <th>D3</th>
+      <th>D7</th>
+      <th>dist1</th>
+      <th>dist2</th>
+      <th>V209</th>
+      <th>V166</th>
+      <th>id_06</th>
+      <th>V285</th>
+      <th>id_01</th>
+      <th>D13</th>
+      <th>isFraud</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>13.0</td>
+      <td>37.875</td>
+      <td>68.500000</td>
+      <td>13.0</td>
+      <td>0.0</td>
+      <td>19.0</td>
+      <td>37.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>-5.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>43.0</td>
+      <td>37.875</td>
+      <td>29.000000</td>
+      <td>8.0</td>
+      <td>0.0</td>
+      <td>8.0</td>
+      <td>37.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>-5.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>315.0</td>
+      <td>37.875</td>
+      <td>59.000000</td>
+      <td>8.0</td>
+      <td>0.0</td>
+      <td>287.0</td>
+      <td>37.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>-5.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>43.0</td>
+      <td>37.875</td>
+      <td>50.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>8.0</td>
+      <td>37.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>10.0</td>
+      <td>-5.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>43.0</td>
+      <td>37.875</td>
+      <td>50.000000</td>
+      <td>8.0</td>
+      <td>0.0</td>
+      <td>8.0</td>
+      <td>37.0</td>
+      <td>0.0</td>
+      <td>2840.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>590535</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>56.0</td>
+      <td>37.875</td>
+      <td>49.000000</td>
+      <td>30.0</td>
+      <td>0.0</td>
+      <td>48.0</td>
+      <td>37.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>-5.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>590536</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>37.875</td>
+      <td>39.500000</td>
+      <td>8.0</td>
+      <td>0.0</td>
+      <td>8.0</td>
+      <td>37.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>-5.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>590537</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>37.875</td>
+      <td>30.950001</td>
+      <td>8.0</td>
+      <td>0.0</td>
+      <td>8.0</td>
+      <td>37.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>-5.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>590538</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>22.0</td>
+      <td>37.875</td>
+      <td>117.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>3.0</td>
+      <td>37.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>5.0</td>
+      <td>-5.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>590539</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>37.875</td>
+      <td>279.950012</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>8.0</td>
+      <td>37.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>-5.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>590540 rows × 16 columns</p>
+</div></div></div>
+</div>
+<p>El conjunto de datos proporcionado es un dataframe extenso con 590,540 filas y 16 columnas, que esta relacionado con un análisis de transacciones financieras. Las variables incluyen diversos códigos como D12, D14, D11, y campos numéricos como TransAmt (monto de transacción), dist1, dist2, y otros identificadores. La columna ‘isFraud’ sugiere que este dataset está preparado para un análisis de detección de fraude. Los datos muestran una estructura homogénea con muchos valores cercanos a cero, especialmente en las columnas categóricas, lo que indica un preprocesamiento o normalización previo. La última columna ‘isFraud’ parece ser binaria (0 o 1), probablemente indicando si una transacción es fraudulenta o no, siendo este el objetivo principal de un posible modelo de machine learning para detección de fraudes financieros.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_final</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_reduced</span><span class="p">,</span> <span class="n">df_train_ml</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_final</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>D12</th>
+      <th>D14</th>
+      <th>D11</th>
+      <th>D8</th>
+      <th>TransAmt</th>
+      <th>D3</th>
+      <th>D7</th>
+      <th>dist1</th>
+      <th>dist2</th>
+      <th>V209</th>
+      <th>...</th>
+      <th>V285</th>
+      <th>id_01</th>
+      <th>D13</th>
+      <th>isFraud</th>
+      <th>card4_discover</th>
+      <th>card4_mastercard</th>
+      <th>card4_visa</th>
+      <th>card6_credit</th>
+      <th>card6_debit</th>
+      <th>card6_debit or credit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>13.0</td>
+      <td>37.875</td>
+      <td>68.500000</td>
+      <td>13.0</td>
+      <td>0.0</td>
+      <td>19.0</td>
+      <td>37.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>-5.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>43.0</td>
+      <td>37.875</td>
+      <td>29.000000</td>
+      <td>8.0</td>
+      <td>0.0</td>
+      <td>8.0</td>
+      <td>37.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>-5.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>315.0</td>
+      <td>37.875</td>
+      <td>59.000000</td>
+      <td>8.0</td>
+      <td>0.0</td>
+      <td>287.0</td>
+      <td>37.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>-5.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>43.0</td>
+      <td>37.875</td>
+      <td>50.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>8.0</td>
+      <td>37.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>10.0</td>
+      <td>-5.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>43.0</td>
+      <td>37.875</td>
+      <td>50.000000</td>
+      <td>8.0</td>
+      <td>0.0</td>
+      <td>8.0</td>
+      <td>37.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>590535</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>56.0</td>
+      <td>37.875</td>
+      <td>49.000000</td>
+      <td>30.0</td>
+      <td>0.0</td>
+      <td>48.0</td>
+      <td>37.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>-5.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>590536</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>37.875</td>
+      <td>39.500000</td>
+      <td>8.0</td>
+      <td>0.0</td>
+      <td>8.0</td>
+      <td>37.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>-5.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>590537</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>37.875</td>
+      <td>30.950001</td>
+      <td>8.0</td>
+      <td>0.0</td>
+      <td>8.0</td>
+      <td>37.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>-5.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>590538</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>22.0</td>
+      <td>37.875</td>
+      <td>117.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>3.0</td>
+      <td>37.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>5.0</td>
+      <td>-5.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>590539</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>37.875</td>
+      <td>279.950012</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>8.0</td>
+      <td>37.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>-5.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>590540 rows × 22 columns</p>
+</div></div></div>
+</div>
+<p>El nuevo dataset amplía el anterior, agregando columnas categóricas relacionadas con tarjetas de pago, específicamente tipos de tarjetas como card4 (Discover, Mastercard, Visa) y card6 (crédito, débito, débito o crédito). Mantiene las 590,540 filas y sus características originales como TransAmt, dist1, dist2, y la variable objetivo ‘isFraud’, pero ahora incluye 22 columnas en total. Estas nuevas variables categóricas codificadas mediante one-hot encoding (con valores binarios 0 o 1) proporcionan información adicional sobre las características de las tarjetas utilizadas en cada transacción, lo que podría ser crucial para mejorar un modelo de detección de fraude al permitir que el algoritmo considere el tipo de tarjeta como un factor potencial en la identificación de transacciones sospechosas.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_final</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;Data_final.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="2%20EDA%20Train_transaction.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">EDA Train_transaction</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="4%20Modelo%20K-NN.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">&lt;no title&gt;</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Imputación de Datos y VIF</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-del-conjunto-de-datos-de-fraude">Variables del Conjunto de Datos de Fraude</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aplicacion-del-vif-1-mayor-a-10">Aplicación del VIF 1 Mayor a 10</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aplicacion-vif-2-menor-a-3">Aplicación VIF 2 Menor a 3</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Jesús D. Zamora Th., Gregory J. Melendéz A.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

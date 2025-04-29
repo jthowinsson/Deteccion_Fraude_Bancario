@@ -1,0 +1,139 @@
+Traceback (most recent call last):
+  File "/Users/instructorzamora/miniconda3/envs/ml_venv/lib/python3.9/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/Users/instructorzamora/miniconda3/envs/ml_venv/lib/python3.9/site-packages/nbclient/client.py", line 1305, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/Users/instructorzamora/miniconda3/envs/ml_venv/lib/python3.9/site-packages/jupyter_core/utils/__init__.py", line 166, in wrapped
+    return loop.run_until_complete(inner)
+  File "/Users/instructorzamora/miniconda3/envs/ml_venv/lib/python3.9/asyncio/base_events.py", line 642, in run_until_complete
+    return future.result()
+  File "/Users/instructorzamora/miniconda3/envs/ml_venv/lib/python3.9/site-packages/nbclient/client.py", line 705, in async_execute
+    await self.async_execute_cell(
+  File "/Users/instructorzamora/miniconda3/envs/ml_venv/lib/python3.9/site-packages/nbclient/client.py", line 1058, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/Users/instructorzamora/miniconda3/envs/ml_venv/lib/python3.9/site-packages/nbclient/client.py", line 914, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# ------------------------
+# Paso 1: Importar paquetes necesarios
+# ------------------------
+import numpy as np
+import pandas as pd
+from sklearn.neural_network import MLPClassifier
+from sklearn.metrics import precision_score, recall_score, accuracy_score, f1_score, roc_auc_score
+from sklearn.preprocessing import StandardScaler
+from imblearn.pipeline import Pipeline
+from imblearn.over_sampling import SMOTE
+from joblib import dump
+from time import time
+from sklearn.model_selection import train_test_split, RandomizedSearchCV
+from scipy.stats import uniform, loguniform
+
+# ------------------------
+# Paso 2: Cargar y preparar los datos
+# ------------------------
+y_train = Data_final['isFraud']
+x_train = Data_final.drop(columns=['isFraud']).select_dtypes(include='number')  # Solo numéricas
+x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=0.20,random_state=80,stratify=y)
+
+# ------------------------
+# Paso 3: Pipeline con SMOTE + Escalado + MLP
+# ------------------------
+pipe_mlp = Pipeline([
+    ('smote', SMOTE(random_state=42, sampling_strategy='auto')),  # Ajustado para rendimiento
+    ('scaler', StandardScaler()),
+    ('mlp', MLPClassifier(max_iter=100, solver='adam', early_stopping=True,  # Cambiado a adam y early_stopping
+                        validation_fraction=0.1, n_iter_no_change=5, 
+                        random_state=42))
+])
+
+# ------------------------
+# Paso 4: Espacio de búsqueda usando RandomizedSearchCV (más rápido que Bayes)
+# ------------------------
+param_dist = {
+    'mlp__hidden_layer_sizes': [(50,), (100,)],
+    'mlp__alpha': loguniform(1e-4, 1e-2),
+    'mlp__learning_rate_init': loguniform(1e-4, 1e-2),
+    'mlp__activation': ['relu']
+}
+
+# ------------------------
+# Paso 5: RandomizedSearchCV (más eficiente que BayesSearchCV)
+# ------------------------
+random_search = RandomizedSearchCV(
+    estimator=pipe_mlp,
+    param_distributions=param_dist,
+    n_iter=6,          # Reducido de 10 a 6
+    scoring='roc_auc',
+    cv=2,              # Reducido de 3 a 2
+    n_jobs=-1,
+    random_state=42,
+    verbose=1          # Agregado para ver progreso
+)
+
+# Medir tiempo de entrenamiento
+print("Iniciando entrenamiento...")
+start_time = time()
+random_search.fit(x_train, y_train)
+training_time_mlp = time() - start_time
+print(f"Entrenamiento completado en {training_time_mlp:.2f} segundos")
+
+# Guardar el modelo
+dump(random_search, 'mlp_smote_optimized_fast_m1.joblib')
+
+# ------------------------
+# Paso 6: Predicciones
+# ------------------------
+print("Realizando predicciones...")
+x_test_num = x_test.select_dtypes(include='number')
+y_pred_mlp = random_search.best_estimator_.predict(x_test_num)
+y_pred_proba_mlp = random_search.best_estimator_.predict_proba(x_test_num)[:, 1]
+
+# ------------------------
+# Paso 7: Métricas
+# ------------------------
+precision_mlp = precision_score(y_test, y_pred_mlp, average='weighted')
+recall_mlp = recall_score(y_test, y_pred_mlp, average='weighted')
+accuracy_mlp = accuracy_score(y_test, y_pred_mlp)
+f1_mlp = f1_score(y_test, y_pred_mlp, average='weighted')
+auc_mlp = roc_auc_score(y_test, y_pred_proba_mlp)
+
+# ------------------------
+# Paso 8: Resultados
+# ------------------------
+resultados_mlp = pd.DataFrame({
+    'Precision': [f"{precision_mlp:.2f}"],
+    'Recall': [f"{recall_mlp:.2f}"],
+    'Accuracy': [f"{accuracy_mlp:.2f}"],
+    'F1-Score': [f"{f1_mlp:.2f}"],
+    'AUC': [f"{auc_mlp:.2f}"],
+    'CPU time (s)': [round(training_time_mlp, 2)]
+})
+print("Métricas MLP + SMOTE optimizado y rápido para M1:")
+display(resultados_mlp)
+
+# Mostrar los mejores parámetros
+print("Mejores parámetros encontrados:")
+print(random_search.best_params_)
+------------------
+
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mNameError[0m                                 Traceback (most recent call last)
+Cell [0;32mIn[2], line 21[0m
+[1;32m     19[0m y_train [38;5;241m=[39m Data_final[[38;5;124m'[39m[38;5;124misFraud[39m[38;5;124m'[39m]
+[1;32m     20[0m x_train [38;5;241m=[39m Data_final[38;5;241m.[39mdrop(columns[38;5;241m=[39m[[38;5;124m'[39m[38;5;124misFraud[39m[38;5;124m'[39m])[38;5;241m.[39mselect_dtypes(include[38;5;241m=[39m[38;5;124m'[39m[38;5;124mnumber[39m[38;5;124m'[39m)  [38;5;66;03m# Solo numéricas[39;00m
+[0;32m---> 21[0m x_train, x_test, y_train, y_test [38;5;241m=[39m train_test_split([43mx[49m,y,test_size[38;5;241m=[39m[38;5;241m0.20[39m,random_state[38;5;241m=[39m[38;5;241m80[39m,stratify[38;5;241m=[39my)
+[1;32m     23[0m [38;5;66;03m# ------------------------[39;00m
+[1;32m     24[0m [38;5;66;03m# Paso 3: Pipeline con SMOTE + Escalado + MLP[39;00m
+[1;32m     25[0m [38;5;66;03m# ------------------------[39;00m
+[1;32m     26[0m pipe_mlp [38;5;241m=[39m Pipeline([
+[1;32m     27[0m     ([38;5;124m'[39m[38;5;124msmote[39m[38;5;124m'[39m, SMOTE(random_state[38;5;241m=[39m[38;5;241m42[39m, sampling_strategy[38;5;241m=[39m[38;5;124m'[39m[38;5;124mauto[39m[38;5;124m'[39m)),  [38;5;66;03m# Ajustado para rendimiento[39;00m
+[1;32m     28[0m     ([38;5;124m'[39m[38;5;124mscaler[39m[38;5;124m'[39m, StandardScaler()),
+[0;32m   (...)[0m
+[1;32m     31[0m                         random_state[38;5;241m=[39m[38;5;241m42[39m))
+[1;32m     32[0m ])
+
+[0;31mNameError[0m: name 'x' is not defined
+

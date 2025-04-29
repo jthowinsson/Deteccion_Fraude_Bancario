@@ -1,0 +1,2011 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>EDA Test_transaction &#8212; Detección de Fraude</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '1 EDA Test_transaction';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="EDA Train_transaction" href="2%20EDA%20Train_transaction.html" />
+    <link rel="prev" title="Detección de Fraude Bancario: La Convergencia de la Inteligencia Artificial" href="intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Detección de Fraude - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Detección de Fraude - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Detección de Fraude Bancario: La Convergencia de la Inteligencia Artificial
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">EDA Test_transaction</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="2%20EDA%20Train_transaction.html">EDA Train_transaction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="3%20Imputaci%C3%B3n_Datos%20y%20VIF.html">Imputación de Datos y VIF</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="5%20Logistic%20Regression%20Model.html">Logistic Regression Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="6%20Bayesian%20Classification%20Model.html">Bayesian Classification Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="7%20Decision%20Tree%20Classifier.html">Decision Tree Classifier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="8%20Random%20Forest%20Model.html">Random Forest Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="9%20XGBoost.html">XGBoost</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10%20Support%20Vector%20Machine%20SVM%20Model.html">Support Vector Machine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11%20Multilayer%20Perceptron%20MLP%20Model.html">Multilayer Perceptron MLP Model</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2F1 EDA Test_transaction.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/1 EDA Test_transaction.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>EDA Test_transaction</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">EDA Test_transaction</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-transaction">Test_transaction</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-del-conjunto-de-datos-de-fraude">Variables del Conjunto de Datos de Fraude</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notas-importantes">Notas Importantes</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="eda-test-transaction">
+<h1>EDA Test_transaction<a class="headerlink" href="#eda-test-transaction" title="Link to this heading">#</a></h1>
+<section id="test-transaction">
+<h2>Test_transaction<a class="headerlink" href="#test-transaction" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># -----------------------------------------------------------</span>
+<span class="c1"># 1. Paquetes necesarios para el análisis</span>
+<span class="c1"># -----------------------------------------------------------</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">ttest_ind</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">chi2_contingency</span><span class="p">,</span> <span class="n">ttest_ind</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># -----------------------------------------------------------------------</span>
+<span class="c1"># 2. Cargar los datos de test_transaction desde nuestro disco duro local</span>
+<span class="c1">#    cambia la ruta a la ubicación de tu archivo CSV</span>
+<span class="c1"># -----------------------------------------------------------------------</span>
+
+<span class="n">test_transaction</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;C:/Users/jthow/iCloudDrive/Documents/3_Maestria_Estadistica_UNINORTE/3_Tercer_Semestre/Machine_Learning/Parcial_Practico/fraude/test_transaction.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># -----------------------------------------------------------------------</span>
+<span class="c1"># 3. Inspeccionar los datos cargados</span>
+<span class="c1"># -----------------------------------------------------------------------</span>
+
+<span class="n">test_transaction</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">6</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># -----------------------------------------------------------------------</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="c1"># 2. Cargar los datos de test_transaction desde nuestro disco duro local</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="c1">#    cambia la ruta a la ubicación de tu archivo CSV</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="c1"># -----------------------------------------------------------------------</span>
+<span class="ne">----&gt; </span><span class="mi">6</span> <span class="n">test_transaction</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;C:/Users/jthow/iCloudDrive/Documents/3_Maestria_Estadistica_UNINORTE/3_Tercer_Semestre/Machine_Learning/Parcial_Practico/fraude/test_transaction.csv&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="c1"># -----------------------------------------------------------------------</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="c1"># 3. Inspeccionar los datos cargados</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="c1"># -----------------------------------------------------------------------</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="n">test_transaction</span>
+
+<span class="nn">File ~/miniconda3/envs/ml_venv/lib/python3.9/site-packages/pandas/io/parsers/readers.py:948,</span> in <span class="ni">read_csv</span><span class="nt">(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, date_format, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, encoding_errors, dialect, on_bad_lines, delim_whitespace, low_memory, memory_map, float_precision, storage_options, dtype_backend)</span>
+<span class="g g-Whitespace">    </span><span class="mi">935</span> <span class="n">kwds_defaults</span> <span class="o">=</span> <span class="n">_refine_defaults_read</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">936</span>     <span class="n">dialect</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">937</span>     <span class="n">delimiter</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">944</span>     <span class="n">dtype_backend</span><span class="o">=</span><span class="n">dtype_backend</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">945</span> <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">946</span> <span class="n">kwds</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwds_defaults</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">948</span> <span class="k">return</span> <span class="n">_read</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="n">kwds</span><span class="p">)</span>
+
+<span class="nn">File ~/miniconda3/envs/ml_venv/lib/python3.9/site-packages/pandas/io/parsers/readers.py:611,</span> in <span class="ni">_read</span><span class="nt">(filepath_or_buffer, kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">608</span> <span class="n">_validate_names</span><span class="p">(</span><span class="n">kwds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;names&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">610</span> <span class="c1"># Create the parser.</span>
+<span class="ne">--&gt; </span><span class="mi">611</span> <span class="n">parser</span> <span class="o">=</span> <span class="n">TextFileReader</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">613</span> <span class="k">if</span> <span class="n">chunksize</span> <span class="ow">or</span> <span class="n">iterator</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">614</span>     <span class="k">return</span> <span class="n">parser</span>
+
+<span class="nn">File ~/miniconda3/envs/ml_venv/lib/python3.9/site-packages/pandas/io/parsers/readers.py:1448,</span> in <span class="ni">TextFileReader.__init__</span><span class="nt">(self, f, engine, **kwds)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1445</span>     <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;has_index_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwds</span><span class="p">[</span><span class="s2">&quot;has_index_names&quot;</span><span class="p">]</span>
+<span class="g g-Whitespace">   </span><span class="mi">1447</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span><span class="p">:</span> <span class="n">IOHandles</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="ne">-&gt; </span><span class="mi">1448</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_engine</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">)</span>
+
+<span class="nn">File ~/miniconda3/envs/ml_venv/lib/python3.9/site-packages/pandas/io/parsers/readers.py:1705,</span> in <span class="ni">TextFileReader._make_engine</span><span class="nt">(self, f, engine)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1703</span>     <span class="k">if</span> <span class="s2">&quot;b&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">mode</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1704</span>         <span class="n">mode</span> <span class="o">+=</span> <span class="s2">&quot;b&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">1705</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span> <span class="o">=</span> <span class="n">get_handle</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1706</span>     <span class="n">f</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1707</span>     <span class="n">mode</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1708</span>     <span class="n">encoding</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;encoding&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1709</span>     <span class="n">compression</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;compression&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1710</span>     <span class="n">memory_map</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;memory_map&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1711</span>     <span class="n">is_text</span><span class="o">=</span><span class="n">is_text</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1712</span>     <span class="n">errors</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;encoding_errors&quot;</span><span class="p">,</span> <span class="s2">&quot;strict&quot;</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1713</span>     <span class="n">storage_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storage_options&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1714</span> <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1715</span> <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="g g-Whitespace">   </span><span class="mi">1716</span> <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span><span class="o">.</span><span class="n">handle</span>
+
+<span class="nn">File ~/miniconda3/envs/ml_venv/lib/python3.9/site-packages/pandas/io/common.py:863,</span> in <span class="ni">get_handle</span><span class="nt">(path_or_buf, mode, encoding, compression, memory_map, is_text, errors, storage_options)</span>
+<span class="g g-Whitespace">    </span><span class="mi">858</span> <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">859</span>     <span class="c1"># Check whether the filename is to be opened in binary mode.</span>
+<span class="g g-Whitespace">    </span><span class="mi">860</span>     <span class="c1"># Binary mode does not support &#39;encoding&#39; and &#39;newline&#39;.</span>
+<span class="g g-Whitespace">    </span><span class="mi">861</span>     <span class="k">if</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">encoding</span> <span class="ow">and</span> <span class="s2">&quot;b&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">862</span>         <span class="c1"># Encoding</span>
+<span class="ne">--&gt; </span><span class="mi">863</span>         <span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">864</span>             <span class="n">handle</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">865</span>             <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">866</span>             <span class="n">encoding</span><span class="o">=</span><span class="n">ioargs</span><span class="o">.</span><span class="n">encoding</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">867</span>             <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">868</span>             <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">869</span>         <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">870</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">871</span>         <span class="c1"># Binary mode</span>
+<span class="g g-Whitespace">    </span><span class="mi">872</span>         <span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+
+<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;C:/Users/jthow/iCloudDrive/Documents/3_Maestria_Estadistica_UNINORTE/3_Tercer_Semestre/Machine_Learning/Parcial_Practico/fraude/test_transaction.csv&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>TEST TRANSACTION</p>
+<p>Estructura de la Base de Datos
+Filas y Columnas:</p>
+<p>La base de datos contiene 506,691 filas y 393 columnas. Esto indica un conjunto de datos bastante grande y complejo.
+Columnas Principales:</p>
+<p>TransactionID: Un identificador único para cada transacción. Es crucial para rastrear y referenciar transacciones individuales.
+TransactionDT: La fecha y hora de la transacción, representada como un número entero. Este campo es esencial para el análisis temporal.
+TransactionAmt: El monto de la transacción. Es una variable continua que puede ser útil para análisis financieros y detección de fraudes.
+ProductCD: Un código que representa el tipo de producto involucrado en la transacción. Puede ser categórico y útil para segmentar los datos por tipo de producto.
+card1 a card6: Información relacionada con la tarjeta utilizada en la transacción. Estos campos pueden incluir detalles como el número de tarjeta (posiblemente encriptado), el tipo de tarjeta, el emisor, etc.
+V330 a V339: Estas columnas parecen ser variables adicionales, posiblemente características anonimizadas o codificadas. Los valores NaN indican que estas columnas pueden tener datos faltantes o no aplicables para ciertas transacciones.
+Conclusión
+Esta base de datos ofrece una rica fuente de información para el análisis transaccional. A través de un EDA detallado y consideraciones estadísticas, se pueden extraer insights valiosos que pueden informar decisiones estratégicas, mejorar la detección de fraudes y optimizar las operaciones comerciales.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># -----------------------------------------------------------------------</span>
+<span class="c1"># 4. Cargar los datos de test_identity desde nuestro disco duro local</span>
+<span class="c1">#    cambia la ruta a la ubicación de tu archivo CSV</span>
+<span class="c1"># -----------------------------------------------------------------------</span>
+
+<span class="n">test_identity</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;C:/Users/jthow/iCloudDrive/Documents/3_Maestria_Estadistica_UNINORTE/3_Tercer_Semestre/Machine_Learning/Parcial_Practico/fraude/test_identity.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># -----------------------------------------------------------------------</span>
+<span class="c1"># 5. Inspeccionar los datos cargados</span>
+<span class="c1"># -----------------------------------------------------------------------</span>
+
+<span class="n">test_identity</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>TransactionID</th>
+      <th>id-01</th>
+      <th>id-02</th>
+      <th>id-03</th>
+      <th>id-04</th>
+      <th>id-05</th>
+      <th>id-06</th>
+      <th>id-07</th>
+      <th>id-08</th>
+      <th>id-09</th>
+      <th>...</th>
+      <th>id-31</th>
+      <th>id-32</th>
+      <th>id-33</th>
+      <th>id-34</th>
+      <th>id-35</th>
+      <th>id-36</th>
+      <th>id-37</th>
+      <th>id-38</th>
+      <th>DeviceType</th>
+      <th>DeviceInfo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3663586</td>
+      <td>-45.0</td>
+      <td>280290.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>chrome 67.0 for android</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>F</td>
+      <td>F</td>
+      <td>T</td>
+      <td>F</td>
+      <td>mobile</td>
+      <td>MYA-L13 Build/HUAWEIMYA-L13</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3663588</td>
+      <td>0.0</td>
+      <td>3579.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>chrome 67.0 for android</td>
+      <td>24.0</td>
+      <td>1280x720</td>
+      <td>match_status:2</td>
+      <td>T</td>
+      <td>F</td>
+      <td>T</td>
+      <td>T</td>
+      <td>mobile</td>
+      <td>LGLS676 Build/MXB48T</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3663597</td>
+      <td>-5.0</td>
+      <td>185210.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>ie 11.0 for tablet</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>F</td>
+      <td>T</td>
+      <td>T</td>
+      <td>F</td>
+      <td>desktop</td>
+      <td>Trident/7.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3663601</td>
+      <td>-45.0</td>
+      <td>252944.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>chrome 67.0 for android</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>F</td>
+      <td>F</td>
+      <td>T</td>
+      <td>F</td>
+      <td>mobile</td>
+      <td>MYA-L13 Build/HUAWEIMYA-L13</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>3663602</td>
+      <td>-95.0</td>
+      <td>328680.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>7.0</td>
+      <td>-33.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>chrome 67.0 for android</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>F</td>
+      <td>F</td>
+      <td>T</td>
+      <td>F</td>
+      <td>mobile</td>
+      <td>SM-G9650 Build/R16NW</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>141902</th>
+      <td>4170230</td>
+      <td>-20.0</td>
+      <td>473365.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>chrome 71.0 for android</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>F</td>
+      <td>F</td>
+      <td>T</td>
+      <td>F</td>
+      <td>mobile</td>
+      <td>SM-J700M</td>
+    </tr>
+    <tr>
+      <th>141903</th>
+      <td>4170233</td>
+      <td>-5.0</td>
+      <td>489917.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>-4.0</td>
+      <td>-32.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>chrome 71.0 for android</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>F</td>
+      <td>F</td>
+      <td>T</td>
+      <td>F</td>
+      <td>mobile</td>
+      <td>SM-J320M</td>
+    </tr>
+    <tr>
+      <th>141904</th>
+      <td>4170234</td>
+      <td>-5.0</td>
+      <td>110081.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>22.0</td>
+      <td>-31.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>mobile safari 10.0</td>
+      <td>32.0</td>
+      <td>1334x750</td>
+      <td>match_status:2</td>
+      <td>T</td>
+      <td>F</td>
+      <td>F</td>
+      <td>T</td>
+      <td>mobile</td>
+      <td>iOS Device</td>
+    </tr>
+    <tr>
+      <th>141905</th>
+      <td>4170236</td>
+      <td>-45.0</td>
+      <td>266704.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-3.0</td>
+      <td>-10.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>chrome 43.0 for android</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>F</td>
+      <td>F</td>
+      <td>T</td>
+      <td>F</td>
+      <td>mobile</td>
+      <td>ALE-L23 Build/HuaweiALE-L23</td>
+    </tr>
+    <tr>
+      <th>141906</th>
+      <td>4170239</td>
+      <td>-10.0</td>
+      <td>692090.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>samsung browser 8.2</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>F</td>
+      <td>F</td>
+      <td>T</td>
+      <td>F</td>
+      <td>mobile</td>
+      <td>SAMSUNG</td>
+    </tr>
+  </tbody>
+</table>
+<p>141907 rows × 41 columns</p>
+</div></div></div>
+</div>
+<p>Estructura de la Base de Datos
+Filas y Columnas:</p>
+<p>La base de datos contiene 141,907 filas y 41 columnas. Esto indica un conjunto de datos moderadamente grande.
+Columnas Principales:</p>
+<p>TransactionID: Un identificador único para cada transacción. Es crucial para rastrear y referenciar transacciones individuales.
+id-01 a id-38: Estas columnas parecen ser identificadores o características adicionales relacionadas con la transacción. Algunas de estas columnas tienen valores numéricos, mientras que otras tienen valores categóricos o booleanos (T/F).
+DeviceType: Indica el tipo de dispositivo utilizado en la transacción (por ejemplo, “mobile”, “desktop”). Esta información es útil para segmentar el análisis por tipo de dispositivo.
+DeviceInfo: Proporciona detalles adicionales sobre el dispositivo, como el modelo y el sistema operativo. Esto puede ser útil para identificar patrones específicos de dispositivos.
+esta es un commplemento de la base anterior trabajada.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># -----------------------------------------------------------------------</span>
+<span class="c1"># 7. Paquetes necesarios para medir el tiempo de ejecución</span>
+<span class="c1"># -----------------------------------------------------------------------</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># Lista para almacenar los tiempos de ejecución</span>
+<span class="n">execution_times</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 8. Fusionar los dos conjuntos de datos test_transaction y test_identity en uno solo para redefinir FD_test</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># Iniciar el cronómetro</span>
+
+<span class="n">FD_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">test_transaction</span><span class="p">,</span> <span class="n">test_identity</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;TransactionID&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+
+<span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># Detener el cronómetro</span>
+<span class="n">elapsed_time</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
+<span class="n">execution_times</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;Fusión de DataFrames&quot;</span><span class="p">,</span> <span class="n">elapsed_time</span><span class="p">))</span>
+
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 7. Guardar el DataFrame fusionado en un archivo CSV en la ruta especificada</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># Iniciar el cronómetro</span>
+
+<span class="n">FD_test</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;C:/Users/jthow/iCloudDrive/Documents/3_Maestria_Estadistica_UNINORTE/3_Tercer_Semestre/Machine_Learning/Parcial_Practico/FD_test.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># Detener el cronómetro</span>
+<span class="n">elapsed_time</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
+<span class="n">execution_times</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;Guardado del CSV&quot;</span><span class="p">,</span> <span class="n">elapsed_time</span><span class="p">))</span>
+
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 8. Inspeccionar los datos fusionados</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># Iniciar el cronómetro</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">FD_test</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>  <span class="c1"># Muestra las primeras filas del DataFrame</span>
+
+<span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># Detener el cronómetro</span>
+<span class="n">elapsed_time</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
+<span class="n">execution_times</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;Inspección de datos&quot;</span><span class="p">,</span> <span class="n">elapsed_time</span><span class="p">))</span>
+
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 9. Mostrar los tiempos de ejecución en una tabla</span>
+<span class="c1">#    Convertir los tiempos a minutos y segundos</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+
+<span class="n">formatted_times</span> <span class="o">=</span> <span class="p">[(</span><span class="n">desc</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="mi">60</span><span class="p">)</span><span class="si">}</span><span class="s2"> minutos y </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">60</span><span class="p">)</span><span class="si">}</span><span class="s2"> segundos&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">desc</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">execution_times</span><span class="p">]</span>
+
+<span class="c1"># ----------------------------------------------------------</span>
+<span class="c1"># 10. Crear un DataFrame para mostrar los tiempos</span>
+<span class="c1"># ----------------------------------------------------------</span>
+
+<span class="n">times_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">formatted_times</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Descripción&quot;</span><span class="p">,</span> <span class="s2">&quot;Tiempo Transcurrido&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">times_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   TransactionID  TransactionDT  TransactionAmt ProductCD  card1  card2  \
+0        3663549       18403224           31.95         W  10409  111.0   
+1        3663550       18403263           49.00         W   4272  111.0   
+2        3663551       18403310          171.00         W   4476  574.0   
+3        3663552       18403310          284.95         W  10989  360.0   
+4        3663553       18403317           67.95         W  18018  452.0   
+
+   card3       card4  card5  card6  ...  id-31  id-32  id-33  id-34 id-35  \
+0  150.0        visa  226.0  debit  ...    NaN    NaN    NaN    NaN   NaN   
+1  150.0        visa  226.0  debit  ...    NaN    NaN    NaN    NaN   NaN   
+2  150.0        visa  226.0  debit  ...    NaN    NaN    NaN    NaN   NaN   
+3  150.0        visa  166.0  debit  ...    NaN    NaN    NaN    NaN   NaN   
+4  150.0  mastercard  117.0  debit  ...    NaN    NaN    NaN    NaN   NaN   
+
+  id-36  id-37  id-38  DeviceType  DeviceInfo  
+0   NaN    NaN    NaN         NaN         NaN  
+1   NaN    NaN    NaN         NaN         NaN  
+2   NaN    NaN    NaN         NaN         NaN  
+3   NaN    NaN    NaN         NaN         NaN  
+4   NaN    NaN    NaN         NaN         NaN  
+
+[5 rows x 433 columns]
+            Descripción      Tiempo Transcurrido
+0  Fusión de DataFrames  0 minutos y 18 segundos
+1      Guardado del CSV  2 minutos y 18 segundos
+2   Inspección de datos   0 minutos y 0 segundos
+</pre></div>
+</div>
+</div>
+</div>
+<p>La tabla presentada muestra un extracto de un conjunto de datos transaccionales con 5 filas y 433 columnas, proporcionando una visión detallada de diversas características de las transacciones. Cada fila representa una transacción única identificada por <code class="docutils literal notranslate"><span class="pre">TransactionID</span></code>, con columnas adicionales que incluyen la fecha y hora de la transacción (<code class="docutils literal notranslate"><span class="pre">TransactionDT</span></code>), el monto de la transacción (<code class="docutils literal notranslate"><span class="pre">TransactionAmt</span></code>), el tipo de producto (<code class="docutils literal notranslate"><span class="pre">ProductCD</span></code>), y detalles de la tarjeta utilizada (<code class="docutils literal notranslate"><span class="pre">card1</span></code> a <code class="docutils literal notranslate"><span class="pre">card6</span></code>). Además, la tabla incluye identificadores numéricos adicionales (<code class="docutils literal notranslate"><span class="pre">id-01</span></code> a <code class="docutils literal notranslate"><span class="pre">id-38</span></code>), tipo de dispositivo (<code class="docutils literal notranslate"><span class="pre">DeviceType</span></code>) e información específica del dispositivo (<code class="docutils literal notranslate"><span class="pre">DeviceInfo</span></code>). Los datos muestran una variedad de valores, incluyendo algunos faltantes (<code class="docutils literal notranslate"><span class="pre">NaN</span></code>), lo que sugiere la necesidad de manejo de datos faltantes. El proceso de fusión de DataFrames tomó 18 segundos, mientras que la guardar el archivo CSV tomó 2 minutos y 18 segundos, y la inspección de datos se realizó en menos de un segundo. En conjunto, esta tabla ofrece una rica fuente de información para el análisis transaccional, destacando la diversidad de dispositivos y sistemas operativos utilizados, así como la presencia de datos faltantes que deben ser considerados en cualquier análisis posterior.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 11. Importar los paquetes necesarios</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">zipfile</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 12. Leer el archivo CSV &#39;FD2.csv&#39; desde el ZIP</span>
+<span class="c1">#     Ruta al archivo ZIP</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+
+<span class="n">zip_path</span> <span class="o">=</span> <span class="s2">&quot;C:/Users/jthow/iCloudDrive/Documents/3_Maestria_Estadistica_UNINORTE/3_Tercer_Semestre/Machine_Learning/Parcial_Practico/Fraude_Data_FD1_FD2.zip&quot;</span>
+
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 13. Lista para almacenar los tiempos de ejecución</span>
+<span class="c1"># --------------------------------------------------------------------------</span>
+
+<span class="n">execution_times</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># Iniciar el cronómetro</span>
+
+<span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">zip_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">zip_ref</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">zip_ref</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;FD2.csv&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="n">FD2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+
+<span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># Detener el cronómetro</span>
+<span class="n">elapsed_time</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
+<span class="n">execution_times</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;Lectura del CSV&quot;</span><span class="p">,</span> <span class="n">elapsed_time</span><span class="p">))</span>
+
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 14. Mostrar el DataFrame FD2</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># Iniciar el cronómetro</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">FD2</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>  <span class="c1"># Muestra las primeras filas del DataFrame</span>
+
+<span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># Detener el cronómetro</span>
+<span class="n">elapsed_time</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
+<span class="n">execution_times</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;Visualización del DataFrame&quot;</span><span class="p">,</span> <span class="n">elapsed_time</span><span class="p">))</span>
+
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 15. Mostrar los tiempos de ejecución en una tabla</span>
+<span class="c1">#     Convertir los tiempos a minutos y segundos</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+
+<span class="n">formatted_times</span> <span class="o">=</span> <span class="p">[(</span><span class="n">desc</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="mi">60</span><span class="p">)</span><span class="si">}</span><span class="s2"> minutos y </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">60</span><span class="p">)</span><span class="si">}</span><span class="s2"> segundos&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">desc</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">execution_times</span><span class="p">]</span>
+
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 16. Crear un DataFrame para mostrar los tiempos</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+
+<span class="n">times_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">formatted_times</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Descripción&quot;</span><span class="p">,</span> <span class="s2">&quot;Tiempo Transcurrido&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Tiempos de ejecución:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">times_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   TransID   TransDT  TransAmt ProdCD  card1  card2  card3       card4  card5  \
+0  3663549  18403224     31.95      W  10409  111.0  150.0        visa  226.0   
+1  3663550  18403263     49.00      W   4272  111.0  150.0        visa  226.0   
+2  3663551  18403310    171.00      W   4476  574.0  150.0        visa  226.0   
+3  3663552  18403310    284.95      W  10989  360.0  150.0        visa  166.0   
+4  3663553  18403317     67.95      W  18018  452.0  150.0  mastercard  117.0   
+
+   card6  ...  id-31  id-32  id-33  id-34 id-35 id-36  id-37  id-38  DevType  \
+0  debit  ...    NaN    NaN    NaN    NaN   NaN   NaN    NaN    NaN      NaN   
+1  debit  ...    NaN    NaN    NaN    NaN   NaN   NaN    NaN    NaN      NaN   
+2  debit  ...    NaN    NaN    NaN    NaN   NaN   NaN    NaN    NaN      NaN   
+3  debit  ...    NaN    NaN    NaN    NaN   NaN   NaN    NaN    NaN      NaN   
+4  debit  ...    NaN    NaN    NaN    NaN   NaN   NaN    NaN    NaN      NaN   
+
+   DevInfo  
+0      NaN  
+1      NaN  
+2      NaN  
+3      NaN  
+4      NaN  
+
+[5 rows x 433 columns]
+
+Tiempos de ejecución:
+                   Descripción     Tiempo Transcurrido
+0              Lectura del CSV  1 minutos y 9 segundos
+1  Visualización del DataFrame  0 minutos y 0 segundos
+</pre></div>
+</div>
+</div>
+</div>
+<p>Número de observaciones (reemplazar a apartir de aquí con el dataframe - test)</p>
+<p>Al explorar este extenso conjunto de datos de 433 columnas, encontramos numerosos valores faltantes dispersos en múltiples características. Los datos transaccionales muestran información financiera (TransAmt), diversos detalles de tarjetas (card1-card6), códigos de productos y múltiples características de ID. Al examinar las fechas de transacción (TransDT), identificamos patrones temporales en las actividades financieras. El análisis inicial muestra una estructura compleja con diversos tipos de datos que requieren preprocesamiento específico. La naturaleza de los datos sugiere un problema de detección de fraude, donde se observa un desequilibrio de clases característico. Las columnas como card4 y card6 indican el tipo de tarjeta y método de pago, proporcionando contexto valioso para entender los patrones de transacción. La presencia de numerosas columnas id-XX sugiere características derivadas o anónimas que podrían contener información relevante para identificar transacciones fraudulentas.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 17. Importar los paquetes necesarios</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 18. Calcular el número de observaciones no nulas y el porcentaje de valores faltantes</span>
+<span class="c1">#     Lista para almacenar los tiempos de ejecución</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+
+<span class="n">execution_times</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># Iniciar el cronómetro</span>
+
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 19. Calcular el número de observaciones no nulas y el porcentaje de valores faltantes</span>
+<span class="c1"># -------------------------------------------------------------------------</span>
+
+<span class="n">num_obs</span> <span class="o">=</span> <span class="n">FD2</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 20. Total de filas (observaciones en el DataFrame)</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+
+<span class="n">total_rows</span> <span class="o">=</span> <span class="n">FD2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 21. Calcular el porcentaje de valores faltantes por columna</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+
+<span class="n">missing_pct</span> <span class="o">=</span> <span class="p">((</span><span class="n">total_rows</span> <span class="o">-</span> <span class="n">num_obs</span><span class="p">)</span> <span class="o">/</span> <span class="n">total_rows</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 22. Unir en un solo DataFrame</span>
+<span class="c1"># --------------------------------------------------------------------------</span>
+
+<span class="n">obs_summary</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;non_null_count&#39;</span><span class="p">:</span> <span class="n">num_obs</span><span class="p">,</span>
+    <span class="s1">&#39;missing_percentage&#39;</span><span class="p">:</span> <span class="n">missing_pct</span>
+<span class="p">})</span>
+
+<span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># Detener el cronómetro</span>
+<span class="n">elapsed_time</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
+<span class="n">execution_times</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;Cálculo de observaciones y valores faltantes&quot;</span><span class="p">,</span> <span class="n">elapsed_time</span><span class="p">))</span>
+
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 23. Mostrar el resumen de observaciones</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># Iniciar el cronómetro</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">obs_summary</span><span class="p">)</span>
+
+<span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># Detener el cronómetro</span>
+<span class="n">elapsed_time</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
+<span class="n">execution_times</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;Visualización del resumen de observaciones&quot;</span><span class="p">,</span> <span class="n">elapsed_time</span><span class="p">))</span>
+
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 24. Mostrar los tiempos de ejecución en una tabla</span>
+<span class="c1">#     Convertir los tiempos a minutos y segundos</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+
+<span class="n">formatted_times</span> <span class="o">=</span> <span class="p">[(</span><span class="n">desc</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="mi">60</span><span class="p">)</span><span class="si">}</span><span class="s2"> minutos y </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">60</span><span class="p">)</span><span class="si">}</span><span class="s2"> segundos&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">desc</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">execution_times</span><span class="p">]</span>
+
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 25. Crear un DataFrame para mostrar los tiempos</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+
+<span class="n">times_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">formatted_times</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Descripción&quot;</span><span class="p">,</span> <span class="s2">&quot;Tiempo Transcurrido&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Tiempos de ejecución:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">times_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>          non_null_count  missing_percentage
+TransID           506691                0.00
+TransDT           506691                0.00
+TransAmt          506691                0.00
+ProdCD            506691                0.00
+card1             506691                0.00
+...                  ...                 ...
+id-36             136977               72.97
+id-37             136977               72.97
+id-38             136977               72.97
+DevType           136931               72.98
+DevInfo           115057               77.29
+
+[433 rows x 2 columns]
+
+Tiempos de ejecución:
+                                    Descripción     Tiempo Transcurrido
+0  Cálculo de observaciones y valores faltantes  0 minutos y 2 segundos
+1    Visualización del resumen de observaciones  0 minutos y 0 segundos
+</pre></div>
+</div>
+</div>
+</div>
+<p>Nuestro grupo analizó la estructura del conjunto de datos de detección de fraude y encontró que contiene 506,691 transacciones con 433 variables. El conjunto presenta un patrón interesante de valores faltantes: mientras las columnas principales como TransID, TransDT, TransAmt, ProdCD y card1 están completas (0% de valores faltantes), observamos un incremento gradual en el porcentaje de datos ausentes en otras características. Las variables más afectadas incluyen DevInfo con 77.29% de valores faltantes, seguido por DevType con 72.98%, y varias columnas de identificación (id-36, id-37, id-38) con aproximadamente 72.97% de datos ausentes. Este patrón sugiere una estructura de datos donde ciertas características solo son relevantes para tipos específicos de transacciones, lo que explica la naturaleza sistemática de los valores faltantes. El análisis de estos patrones será crucial para desarrollar estrategias efectivas de modelado en nuestro proyecto de detección de fraude.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 26. Importar los paquetes necesarios</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 27. Calcular estadísticas básicas para columnas numéricas</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+
+<span class="c1">#--------------------------------------------------------------------------</span>
+<span class="c1"># 28. Lista para almacenar los tiempos de ejecución</span>
+<span class="c1">#--------------------------------------------------------------------------</span>
+
+<span class="n">execution_times</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># Iniciar el cronómetro</span>
+
+<span class="c1"># Calcular estadísticas básicas para columnas numéricas</span>
+<span class="n">estadisticas_numericas</span> <span class="o">=</span> <span class="n">FD2</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Estadísticas básicas para columnas numéricas:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">estadisticas_numericas</span><span class="p">)</span>
+
+<span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># Detener el cronómetro</span>
+<span class="n">elapsed_time</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
+<span class="n">execution_times</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;Cálculo de estadísticas numéricas&quot;</span><span class="p">,</span> <span class="n">elapsed_time</span><span class="p">))</span>
+
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 29. Filtrar solo columnas numéricas y calcular estadísticas para columnas no numéricas</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># Iniciar el cronómetro</span>
+
+<span class="c1">#--------------------------------------------------------------------------</span>
+<span class="c1"># 30. Filtrar solo columnas numéricas</span>
+<span class="c1">#--------------------------------------------------------------------------</span>
+
+<span class="n">columnas_numericas</span> <span class="o">=</span> <span class="n">FD2</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;number&#39;</span><span class="p">])</span>
+
+<span class="c1">#--------------------------------------------------------------------------</span>
+<span class="c1"># 31. Calcular estadísticas para columnas no numéricas (categóricas)</span>
+<span class="c1">#--------------------------------------------------------------------------</span>
+
+<span class="n">estadisticas_categoricas</span> <span class="o">=</span> <span class="n">FD2</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="s1">&#39;object&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Estadísticas básicas para columnas no numéricas:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">estadisticas_categoricas</span><span class="p">)</span>
+
+<span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># Detener el cronómetro</span>
+<span class="n">elapsed_time</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
+<span class="n">execution_times</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;Cálculo de estadísticas categóricas&quot;</span><span class="p">,</span> <span class="n">elapsed_time</span><span class="p">))</span>
+
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 32. Mostrar los tiempos de ejecución en una tabla</span>
+<span class="c1">#     Convertir los tiempos a minutos y segundos</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+
+<span class="n">formatted_times</span> <span class="o">=</span> <span class="p">[(</span><span class="n">desc</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="mi">60</span><span class="p">)</span><span class="si">}</span><span class="s2"> minutos y </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">60</span><span class="p">)</span><span class="si">}</span><span class="s2"> segundos&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">desc</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">execution_times</span><span class="p">]</span>
+
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 33. Crear un DataFrame para mostrar los tiempos</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+
+<span class="n">times_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">formatted_times</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Descripción&quot;</span><span class="p">,</span> <span class="s2">&quot;Tiempo Transcurrido&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Tiempos de ejecución:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">times_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Estadísticas básicas para columnas numéricas:
+            TransID       TransDT       TransAmt          card1  \
+count  5.066910e+05  5.066910e+05  506691.000000  506691.000000   
+mean   3.916894e+06  2.692994e+07     134.725568    9957.222175   
+std    1.462692e+05  4.756507e+06     245.779822    4884.960969   
+min    3.663549e+06  1.840322e+07       0.018000    1001.000000   
+25%    3.790222e+06  2.277154e+07      40.000000    6019.000000   
+50%    3.916894e+06  2.720466e+07      67.950000    9803.000000   
+75%    4.043566e+06  3.134856e+07     125.000000   14276.000000   
+max    4.170239e+06  3.421434e+07   10270.000000   18397.000000   
+
+               card2          card3          card5          addr1  \
+count  498037.000000  503689.000000  502144.000000  441082.000000   
+mean      363.735379     153.543409     200.162975     291.846514   
+std       158.688653      12.443013      40.562461     102.062730   
+min       100.000000     100.000000     100.000000     100.000000   
+25%       207.000000     150.000000     166.000000     204.000000   
+50%       369.000000     150.000000     226.000000     299.000000   
+75%       512.000000     150.000000     226.000000     330.000000   
+max       600.000000     232.000000     237.000000     540.000000   
+
+               addr2          dist1  ...          id-17         id-18  \
+count  441082.000000  215474.000000  ...  135966.000000  50875.000000   
+mean       86.723412      87.065270  ...     191.070341     14.795735   
+std         2.987328     314.131694  ...      30.749535      2.318496   
+min        10.000000       0.000000  ...     100.000000     11.000000   
+25%        87.000000       3.000000  ...     166.000000     13.000000   
+50%        87.000000       8.000000  ...     166.000000     15.000000   
+75%        87.000000      20.000000  ...     225.000000     15.000000   
+max       102.000000    8081.000000  ...     228.000000     29.000000   
+
+               id-19          id-20        id-21        id-22        id-24  \
+count  135906.000000  135633.000000  5059.000000  5062.000000  4740.000000   
+mean      350.122982     408.886230   507.727021    15.336823    13.166667   
+std       139.140824     158.971756   227.371061     5.618032     3.222440   
+min       100.000000     100.000000   100.000000    11.000000    10.000000   
+25%       266.000000     256.000000   252.000000    14.000000    11.000000   
+50%       321.000000     484.000000   576.000000    14.000000    11.000000   
+75%       427.000000     549.000000   711.000000    14.000000    15.000000   
+max       670.000000     660.000000   854.000000    44.000000    26.000000   
+
+             id-25        id-26         id-32  
+count  5039.000000  5047.000000  70671.000000  
+mean    332.043064   152.752923     26.217939  
+std      86.356683    31.916995      3.601046  
+min     100.000000   100.000000      8.000000  
+25%     321.000000   137.000000     24.000000  
+50%     321.000000   147.000000     24.000000  
+75%     355.000000   182.000000     32.000000  
+max     549.000000   216.000000     48.000000  
+
+[8 rows x 402 columns]
+
+Estadísticas básicas para columnas no numéricas:
+        ProdCD   card4   card6    P_Email    R_Email      M1      M2      M3  \
+count   506691  503605  503684     437499     135870  330052  330052  330052   
+unique       5       4       3         60         60       2       2       2   
+top          W    visa   debit  gmail.com  gmail.com       T       T       T   
+freq    360987  334882  385021     207448      61738  330021  302855  266513   
+
+            M4      M5  ...   OpSyst        id-31      id-33           id-34  \
+count   268946  197059  ...    70659       136625      70671           72175   
+unique       3       2  ...        7          135        390               2   
+top         M0       F  ...  Windows  chrome 70.0  1920x1080  match_status:2   
+freq    161384  107664  ...    33038        16054      16868           72174   
+
+         id-35   id-36   id-37   id-38  DevType  DevInfo  
+count   136977  136977  136977  136977   136931   115057  
+unique       2       2       2       2        2     2226  
+top          T       F       T       F  desktop  Windows  
+freq     71650  133287  104697   95058    74403    44988  
+
+[4 rows x 31 columns]
+
+Tiempos de ejecución:
+                           Descripción      Tiempo Transcurrido
+0    Cálculo de estadísticas numéricas  0 minutos y 35 segundos
+1  Cálculo de estadísticas categóricas  0 minutos y 20 segundos
+</pre></div>
+</div>
+</div>
+</div>
+<p>El equipo de análisis examinó el conjunto de datos de detección de fraude y encontró estadísticas reveladoras para sus 506,691 transacciones. Las columnas numéricas muestran una amplia variación en montos de transacción (TransAmt) con un promedio de <span class="math notranslate nohighlight">\(134.73 y valores que oscilan entre \)</span>0.02 hasta $10,270. Observamos patrones interesantes en las variables de tarjetas, donde card3 muestra poca variabilidad (mayoría en 150) mientras que card1 y card2 presentan distribuciones más amplias. Entre las variables categóricas, el producto W es predominante (360,987 casos), las tarjetas visa son las más comunes (334,882), y el tipo de tarjeta más frecuente es débito (385,021). <a class="reference external" href="http://Gmail.com">Gmail.com</a> aparece como el proveedor de correo electrónico más utilizado tanto para remitentes como destinatarios. Varias columnas binarias (M1-M5) muestran desequilibrios significativos, y Windows es el sistema operativo más común. La resolución de pantalla predominante es 1920x1080, y la mayoría de los dispositivos son de escritorio. Estos patrones proporcionan insights valiosos para nuestro modelo de detección de fraude.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcular asimetría y curtosis solo para las columnas numéricas</span>
+<span class="n">asimetria</span> <span class="o">=</span> <span class="n">columnas_numericas</span><span class="o">.</span><span class="n">skew</span><span class="p">()</span>
+<span class="n">curtosis</span> <span class="o">=</span> <span class="n">columnas_numericas</span><span class="o">.</span><span class="n">kurt</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;/nAsimetría de las columnas numéricas:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">asimetria</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;/nCurtosis de las columnas numéricas:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">curtosis</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/nAsimetría de las columnas numéricas:
+TransID     8.576270e-16
+TransDT    -1.461656e-01
+TransAmt    8.600886e+00
+card1      -5.764174e-02
+card2      -2.145919e-01
+                ...     
+id-22       4.148039e+00
+id-24       1.675694e+00
+id-25       7.099090e-02
+id-26       1.528108e-01
+id-32       9.556708e-01
+Length: 402, dtype: float64
+/nCurtosis de las columnas numéricas:
+TransID      -1.200000
+TransDT      -1.265032
+TransAmt    129.336773
+card1        -1.139890
+card2        -1.339535
+               ...    
+id-22        15.663045
+id-24         2.578678
+id-25         0.499980
+id-26        -0.568686
+id-32        -0.871534
+Length: 402, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>Nuestro equipo analizó la distribución de las 402 variables numéricas del conjunto de datos de fraude, encontrando patrones importantes en su asimetría y curtosis. La mayoría de las variables muestran asimetría significativa, destacando especialmente TransAmt con un valor extremadamente alto (8.60), indicando una fuerte concentración de transacciones de bajo valor con algunas de valor muy alto. La curtosis confirma esta observación, mostrando que TransAmt tiene una distribución leptocúrtica extrema (129.34), muy alejada de una distribución normal. Variables como id-22 también presentan asimetría positiva considerable (4.15) y alta curtosis (15.66), sugiriendo distribuciones con valores atípicos significativos. En contraste, variables como TransID, TransDT, card1 y card2 muestran asimetría cercana a cero y curtosis negativa, indicando distribuciones más uniformes o incluso bimodales. Estos hallazgos sobre la forma de las distribuciones son cruciales para nuestras decisiones de preprocesamiento, incluyendo posibles transformaciones logarítmicas para variables altamente sesgadas antes de aplicar modelos de detección de fraude.</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="variables-del-conjunto-de-datos-de-fraude">
+<h1>Variables del Conjunto de Datos de Fraude<a class="headerlink" href="#variables-del-conjunto-de-datos-de-fraude" title="Link to this heading">#</a></h1>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable</p></th>
+<th class="head"><p>Abreviación</p></th>
+<th class="head"><p>Descripción</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>TransactionID</p></td>
+<td><p>TxnID</p></td>
+<td><p>ID única de la transacción.</p></td>
+</tr>
+<tr class="row-odd"><td><p>TransactionDT</p></td>
+<td><p>TxnDT</p></td>
+<td><p>Tiempo desde el inicio de los datos (en segundos).</p></td>
+</tr>
+<tr class="row-even"><td><p>TransactionAmt</p></td>
+<td><p>TxnAmt</p></td>
+<td><p>Monto de la transacción.</p></td>
+</tr>
+<tr class="row-odd"><td><p>ProductCD</p></td>
+<td><p>ProdCD</p></td>
+<td><p>Código del tipo de producto financiero.</p></td>
+</tr>
+<tr class="row-even"><td><p>card1</p></td>
+<td><p>Card1</p></td>
+<td><p>Identificador parcial del titular de la tarjeta.</p></td>
+</tr>
+<tr class="row-odd"><td><p>card2</p></td>
+<td><p>Card2</p></td>
+<td><p>Posible banco emisor de la tarjeta.</p></td>
+</tr>
+<tr class="row-even"><td><p>card3</p></td>
+<td><p>Card3</p></td>
+<td><p>Región del emisor de la tarjeta.</p></td>
+</tr>
+<tr class="row-odd"><td><p>card4</p></td>
+<td><p>Card4</p></td>
+<td><p>Tipo de tarjeta (Visa, MasterCard, etc.).</p></td>
+</tr>
+<tr class="row-even"><td><p>card5</p></td>
+<td><p>Card5</p></td>
+<td><p>Código del banco emisor.</p></td>
+</tr>
+<tr class="row-odd"><td><p>card6</p></td>
+<td><p>Card6</p></td>
+<td><p>Tipo de cuenta (crédito, débito).</p></td>
+</tr>
+<tr class="row-even"><td><p>addr1</p></td>
+<td><p>Addr1</p></td>
+<td><p>Código de región del comprador.</p></td>
+</tr>
+<tr class="row-odd"><td><p>addr2</p></td>
+<td><p>Addr2</p></td>
+<td><p>Zona más específica (posiblemente país).</p></td>
+</tr>
+<tr class="row-even"><td><p>dist1</p></td>
+<td><p>Dist1</p></td>
+<td><p>Distancia entre comprador y comerciante (posiblemente geográfica).</p></td>
+</tr>
+<tr class="row-odd"><td><p>dist2</p></td>
+<td><p>Dist2</p></td>
+<td><p>Otra medida de distancia (más específica).</p></td>
+</tr>
+<tr class="row-even"><td><p>P_email domain</p></td>
+<td><p>P_Email</p></td>
+<td><p>Dominio del correo del comprador.</p></td>
+</tr>
+<tr class="row-odd"><td><p>R_email domain</p></td>
+<td><p>R_Email</p></td>
+<td><p>Dominio del correo del receptor.</p></td>
+</tr>
+<tr class="row-even"><td><p>C1-C14</p></td>
+<td><p>C1-C14</p></td>
+<td><p>Variables agregadas sobre comportamiento del cliente.</p></td>
+</tr>
+<tr class="row-odd"><td><p>D1-D15</p></td>
+<td><p>D1-D15</p></td>
+<td><p>Variables relacionadas con tiempo desde eventos anteriores.</p></td>
+</tr>
+<tr class="row-even"><td><p>M1-M9</p></td>
+<td><p>M1-M9</p></td>
+<td><p>Validaciones binarias (coincidencia de info, navegador, etc.).</p></td>
+</tr>
+<tr class="row-odd"><td><p>V1-V339</p></td>
+<td><p>V1-V339</p></td>
+<td><p>Variables encriptadas del comportamiento y características del usuario.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="notas-importantes">
+<h2>Notas Importantes<a class="headerlink" href="#notas-importantes" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Las variables C, D, M y V son características complejas que requieren análisis detallado</p></li>
+<li><p>Muchas variables pueden estar ofuscadas o encriptadas para proteger la privacidad</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># Extraer solo la primera fila de FD2.csv desde el ZIP</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">zip_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">zip_ref</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">zip_ref</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;FD2.csv&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="n">primera_fila_FD2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Solo una fila</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Primera fila del archivo FD2.csv:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">primera_fila_FD2</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Primera fila del archivo FD2.csv:
+ TransID  TransDT  TransAmt ProdCD  card1  card2  card3 card4  card5 card6  addr1  addr2  dist1  dist2   P_Email  R_Email  C1  C2  C3  C4  C5  C6  C7  C8  C9  C10  C11  C12  C13  C14  D1  D2  D3  D4  D5  D6  D7  D8  D9  D10  D11  D12  D13  D14  D15 M1 M2 M3  M4  M5 M6 M7 M8 M9  V1  V2  V3  V4  V5  V6  V7  V8  V9  V10  V11  V12  V13  V14  V15  V16  V17  V18  V19  V20  V21  V22  V23  V24  V25  V26  V27  V28  V29  V30  V31  V32  V33  V34  V35  V36  V37  V38  V39  V40  V41  V42  V43  V44  V45  V46  V47  V48  V49  V50  V51  V52  V53  V54  V55  V56  V57  V58  V59  V60  V61  V62  V63  V64  V65  V66  V67  V68  V69  V70  V71  V72  V73  V74  V75  V76  V77  V78  V79  V80  V81  V82  V83  V84  V85  V86  V87  V88  V89  V90  V91  V92  V93  V94  V95  V96  V97  V98  V99  V100  V101  V102  V103  V104  V105  V106  V107  V108  V109  V110  V111  V112  V113  V114  V115  V116  V117  V118  V119  V120  V121  V122  V123  V124  V125  V126      V127  V128  V129      V130  V131  V132  V133  V134  V135  V136  V137  V138  V139  V140  V141  V142  V143  V144  V145  V146  V147  V148  V149  V150  V151  V152  V153  V154  V155  V156  V157  V158  V159  V160  V161  V162  V163  V164  V165  V166  V167  V168  V169  V170  V171  V172  V173  V174  V175  V176  V177  V178  V179  V180  V181  V182  V183  V184  V185  V186  V187  V188  V189  V190  V191  V192  V193  V194  V195  V196  V197  V198  V199  V200  V201  V202  V203  V204  V205  V206  V207  V208  V209  V210  V211  V212  V213  V214  V215  V216  V217  V218  V219  V220  V221  V222  V223  V224  V225  V226  V227  V228  V229  V230  V231  V232  V233  V234  V235  V236  V237  V238  V239  V240  V241  V242  V243  V244  V245  V246  V247  V248  V249  V250  V251  V252  V253  V254  V255  V256  V257  V258  V259  V260  V261  V262  V263  V264  V265  V266  V267  V268  V269  V270  V271  V272  V273  V274  V275  V276  V277  V278  V279  V280  V281  V282  V283  V284  V285  V286  V287  V288  V289  V290  V291  V292  V293  V294  V295  V296  V297  V298  V299  V300  V301  V302  V303  V304  V305  V306      V307  V308  V309      V310  V311  V312  V313  V314  V315  V316  V317  V318  V319  V320  V321  V322  V323  V324  V325  V326  V327  V328  V329  V330  V331  V332  V333  V334  V335  V336  V337  V338  V339  id-01  id-02  id-03  id-04  id-05  id-06  id-07  id-08  id-09  id-10  id-11  id-12  id-13  id-14  id-15  id-16  id-17  id-18  id-19  id-20  id-21  id-22  id-23  id-24  id-25  id-26  id-27  id-28  id-29  OpSyst  id-31  id-32  id-33  id-34  id-35  id-36  id-37  id-38  DevType  DevInfo
+ 3663549 18403224     31.95      W  10409    111    150  visa    226 debit    170     87      1    NaN gmail.com      NaN   6   6   0   0   3   4   0   0   6    0    5    1  115    6 419 419  27 398  27 NaN NaN NaN NaN  418  203  NaN  NaN  NaN  409  T  T  F NaN NaN  F  T  T  T   1   1   1   1   1   1   1   1   1    1    1    0    0    1    0    0    0    0    0    0    0    0    1    1    0    0    0    0    0    0    0    0    0    0    1    1    1    1    0    0    1    0    0    1    1    1    1    1    1    0    0    0    0    0    1    1    0    0    0    0    0    0    0    0    1    0    0    0    0    0    0    0    0    0    0    0    1    1    0    0    0    1    1    0    0    1    1    1    0    1    1    0    0    0    0    1    0    0    1     0     0     0     0     0     0     0     1     1     1     1     1     1     1     1     1     1     1     1     1     1     1     1     1     1     1     0 47.950001     0     0 47.950001     0     0     0     0     0     0     0   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN     0     0     0     0     0     0     1     0     0     0     0     1     1     1     0     0     0     0     0     0     0     0     0     0     0     0     1     0 47.950001     0     0 47.950001     0     0     0     0     0     0     0     0     0     0     0   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN   NaN    NaN    NaN    NaN    NaN    NaN    NaN    NaN    NaN    NaN    NaN    NaN    NaN    NaN    NaN    NaN    NaN    NaN    NaN    NaN    NaN    NaN    NaN    NaN    NaN    NaN    NaN    NaN    NaN    NaN     NaN    NaN    NaN    NaN    NaN    NaN    NaN    NaN    NaN      NaN      NaN
+</pre></div>
+</div>
+</div>
+</div>
+<p>El equipo de análisis examinó la estructura de la primera fila del archivo FD2.csv de detección de fraude, revelando la organización detallada de este extenso conjunto de datos. La fila muestra una transacción con ID 3663549, realizada en un momento específico (TransDT: 18403224), por un valor de $31.95, clasificada como producto tipo “W”, utilizando una tarjeta visa de débito. Los datos incluyen información específica de la tarjeta (card1-card6), direcciones (addr1, addr2), distancias (dist1, dist2), y correo electrónico del comprador (<a class="reference external" href="http://gmail.com">gmail.com</a>). Observamos una estructura compleja con múltiples series de variables codificadas: columnas C1-C14 (posiblemente características del cliente), D1-D15 (datos de la transacción), M1-M9 (marcadores binarios donde predominan valores T y F), y un extenso conjunto de variables V1-V339 (muchas con valores binarios 0/1 o vacías). También notamos campos específicos de identificación (id-01 hasta id-38) y características del dispositivo (OpSyst, DevType, DevInfo), aunque muchos contienen valores NaN, consistente con los patrones de datos faltantes identificados previamente.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Seleccionamos las seis variables del DataFrame FD2</span>
+<span class="n">variables_seleccionadas</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;addr2&#39;</span><span class="p">,</span><span class="s1">&#39;TransAmt&#39;</span><span class="p">,</span> <span class="s1">&#39;card4&#39;</span><span class="p">,</span> <span class="s1">&#39;card6&#39;</span><span class="p">,</span> <span class="s1">&#39;OpSyst&#39;</span><span class="p">,</span> <span class="s1">&#39;DevType&#39;</span><span class="p">]</span>
+<span class="n">df_seleccionadas</span> <span class="o">=</span> <span class="n">FD2</span><span class="p">[</span><span class="n">variables_seleccionadas</span><span class="p">]</span>
+
+<span class="c1"># Diccionario con descripciones de cada variable</span>
+<span class="n">descripciones</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;addr2&#39;</span><span class="p">:</span> <span class="s1">&#39;Posible banco emisor de la tarjeta&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;TransAmt&#39;</span><span class="p">:</span> <span class="s1">&#39;Monto de la transacción&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;card4&#39;</span><span class="p">:</span> <span class="s1">&#39;Tipo de tarjeta (Visa, MasterCard, etc.)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;card6&#39;</span><span class="p">:</span> <span class="s1">&#39;Tipo de cuenta (crédito, débito)&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;OpSyst&#39;</span><span class="p">:</span> <span class="s1">&#39;Sistema operativo del dispositivo electrónico&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;DevType&#39;</span><span class="p">:</span> <span class="s1">&#39;Tipo de dispositivo electrónico&#39;</span>
+<span class="p">}</span>
+
+<span class="c1"># Mostrar nombre de cada variable con su descripción</span>
+<span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">variables_seleccionadas</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">descripciones</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>addr2: Posible banco emisor de la tarjeta
+TransAmt: Monto de la transacción
+card4: Tipo de tarjeta (Visa, MasterCard, etc.)
+card6: Tipo de cuenta (crédito, débito)
+OpSyst: Sistema operativo del dispositivo electrónico
+DevType: Tipo de dispositivo electrónico
+</pre></div>
+</div>
+</div>
+</div>
+<p>El equipo de investigación identificó las definiciones clave de algunas variables relevantes en el conjunto de datos de detección de fraude. La variable TransAmt representa el monto de la transacción, proporcionando información financiera fundamental para detectar patrones de fraude basados en valores atípicos. Las variables card4 y card6 categorizan la tarjeta utilizada: card4 indica el proveedor (como Visa o MasterCard) mientras que card6 especifica si es tarjeta de crédito o débito. La variable addr2 aparentemente contiene información sobre el banco emisor de la tarjeta, lo que podría ser útil para identificar patrones de fraude específicos por institución financiera. Complementando estos datos financieros, las variables tecnológicas OpSyst y DevType describen el entorno digital donde se realizó la transacción, indicando respectivamente el sistema operativo y el tipo de dispositivo electrónico utilizado. Esta combinación de información financiera y digital permite construir perfiles de transacción más completos para distinguir entre comportamientos legítimos y fraudulentos.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Estilo general</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>  <span class="c1"># Importar matplotlib.pyplot para evitar el NameError</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
+
+<span class="c1"># ========================</span>
+<span class="c1"># Parte 1: TransAmt (histograma + curva de densidad + boxplot)</span>
+<span class="c1"># ========================</span>
+<span class="n">fig1</span><span class="p">,</span> <span class="n">axes1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">fig1</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Análisis del Monto de la Transacción (TransAmt)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+
+<span class="c1"># Histograma</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">FD2</span><span class="p">[</span><span class="s1">&#39;TransAmt&#39;</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+             <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#1f77b4&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes1</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">axes1</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Histograma de TransAmt&#39;</span><span class="p">)</span>
+<span class="n">axes1</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Monto de la Transacción&#39;</span><span class="p">)</span>
+<span class="n">axes1</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Frecuencia&#39;</span><span class="p">)</span>
+
+<span class="c1"># Curva de densidad</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">FD2</span><span class="p">[</span><span class="s1">&#39;TransAmt&#39;</span><span class="p">],</span> <span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#ff7f0e&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes1</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">axes1</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Curva de Densidad de TransAmt&#39;</span><span class="p">)</span>
+<span class="n">axes1</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Monto de la Transacción&#39;</span><span class="p">)</span>
+<span class="n">axes1</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Densidad&#39;</span><span class="p">)</span>
+
+<span class="c1"># Boxplot</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">FD2</span><span class="p">[</span><span class="s1">&#39;TransAmt&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#2ca02c&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes1</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">axes1</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Boxplot de TransAmt&#39;</span><span class="p">)</span>
+<span class="n">axes1</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Monto de la Transacción&#39;</span><span class="p">)</span>
+
+<span class="c1"># Eliminar el cuarto gráfico (vacío)</span>
+<span class="n">fig1</span><span class="o">.</span><span class="n">delaxes</span><span class="p">(</span><span class="n">axes1</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># Ajustar diseño</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/3a68b574220b00502a9f78ea81cc1b6cf9a336edba75de334a67d16adc3134d0.png" src="_images/3a68b574220b00502a9f78ea81cc1b6cf9a336edba75de334a67d16adc3134d0.png" />
+</div>
+</div>
+<p>El colectivo de analistas examinó la distribución del monto de transacciones (TransAmt) en el conjunto de datos de detección de fraude, revelando un patrón altamente asimétrico. El histograma muestra una concentración extrema de transacciones en valores bajos (menores a <span class="math notranslate nohighlight">\(1,000), con más de 400,000 casos en el primer intervalo, seguido por una rápida disminución en frecuencia. La curva de densidad confirma esta asimetría positiva, mostrando un pico pronunciado cerca de cero y una larga cola hacia la derecha. El diagrama de caja (boxplot) ilustra claramente la presencia de numerosos valores atípicos que se extienden hasta \)</span>10,000, mientras que la mayoría de los datos se concentran en un rango muy estrecho cerca del primer cuartil. Esta distribución altamente sesgada, con valores extremos dispersos, confirma nuestro análisis previo de asimetría (8.60) y curtosis (129.34) para TransAmt, sugiriendo la necesidad de transformaciones logarítmicas antes del modelado para normalizar esta variable.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># Importar los paquetes necesarios</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># Estilo general</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
+
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 1. Crear figura y ejes: 3 filas x 2 columnas</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># Lista para almacenar los tiempos de ejecución</span>
+<span class="n">execution_times</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># Iniciar el cronómetro</span>
+
+<span class="n">fig2</span><span class="p">,</span> <span class="n">axes2</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">))</span>
+<span class="n">axes2</span> <span class="o">=</span> <span class="n">axes2</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+<span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># Detener el cronómetro</span>
+<span class="n">elapsed_time</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
+<span class="n">execution_times</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;Creación de figura y ejes&quot;</span><span class="p">,</span> <span class="n">elapsed_time</span><span class="p">))</span>
+
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 2. Generar gráficos categóricos</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># Iniciar el cronómetro</span>
+
+
+
+<span class="c1"># Gráfico 2: card4 (tipo de tarjeta)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;card4&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">FD2</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;card4&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;Set2&#39;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">axes2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Tipo de Tarjeta (card4)&#39;</span><span class="p">)</span>
+<span class="n">axes2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+
+<span class="c1"># Gráfico 3: card6 (tipo de cuenta)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;card6&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">FD2</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes2</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;card6&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;Set3&#39;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">axes2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Tipo de Cuenta (card6)&#39;</span><span class="p">)</span>
+<span class="n">axes2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+
+<span class="c1"># Gráfico 4: OpSyst (sistema operativo)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;OpSyst&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">FD2</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes2</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;OpSyst&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;husl&#39;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">axes2</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Sistema Operativo del Dispositivo&#39;</span><span class="p">)</span>
+<span class="n">axes2</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+
+<span class="c1"># Gráfico 5: DevType (tipo de dispositivo)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;DevType&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">FD2</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes2</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;DevType&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;dark&#39;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">axes2</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Tipo de Dispositivo Electrónico&#39;</span><span class="p">)</span>
+<span class="n">axes2</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+
+<span class="c1"># Eliminar el sexto gráfico (vacío)</span>
+<span class="n">fig2</span><span class="o">.</span><span class="n">delaxes</span><span class="p">(</span><span class="n">axes2</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">fig2</span><span class="o">.</span><span class="n">delaxes</span><span class="p">(</span><span class="n">axes2</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+
+<span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># Detener el cronómetro</span>
+<span class="n">elapsed_time</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
+<span class="n">execution_times</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;Generación de gráficos&quot;</span><span class="p">,</span> <span class="n">elapsed_time</span><span class="p">))</span>
+
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 3. Ajustar diseño y mostrar gráficos</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># Iniciar el cronómetro</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># Detener el cronómetro</span>
+<span class="n">elapsed_time</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
+<span class="n">execution_times</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;Ajuste y visualización de gráficos&quot;</span><span class="p">,</span> <span class="n">elapsed_time</span><span class="p">))</span>
+
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># 4. Mostrar los tiempos de ejecución en una tabla</span>
+<span class="c1">#-------------------------------------------------------------------------</span>
+<span class="c1"># Convertir los tiempos a minutos y segundos</span>
+<span class="n">formatted_times</span> <span class="o">=</span> <span class="p">[(</span><span class="n">desc</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="mi">60</span><span class="p">)</span><span class="si">}</span><span class="s2"> minutos y </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">60</span><span class="p">)</span><span class="si">}</span><span class="s2"> segundos&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">desc</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">execution_times</span><span class="p">]</span>
+
+<span class="c1"># Crear un DataFrame para mostrar los tiempos</span>
+<span class="n">times_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">formatted_times</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Descripción&quot;</span><span class="p">,</span> <span class="s2">&quot;Tiempo Transcurrido&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Tiempos de ejecución:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">times_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/61fc4354b33e168042393c969d8ccc1a73ec535b686ea79b17f4992951f9521b.png" src="_images/61fc4354b33e168042393c969d8ccc1a73ec535b686ea79b17f4992951f9521b.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tiempos de ejecución:
+                          Descripción     Tiempo Transcurrido
+0           Creación de figura y ejes  0 minutos y 1 segundos
+1              Generación de gráficos  0 minutos y 8 segundos
+2  Ajuste y visualización de gráficos  0 minutos y 1 segundos
+</pre></div>
+</div>
+</div>
+</div>
+<p>El equipo de investigación analizó las características tecnológicas y financieras de las transacciones, revelando patrones definidos en las preferencias de los usuarios. En cuanto a tipos de tarjetas, Visa domina claramente (más de 330,000 transacciones) sobre Mastercard (aproximadamente 160,000), mientras American Express y Discover representan segmentos mínimos del mercado. Respecto al tipo de cuenta, las tarjetas de débito son ampliamente predominantes (cerca de 385,000 transacciones) frente a las de crédito (aproximadamente 115,000), con las tarjetas de cargo prácticamente inexistentes. El análisis del entorno tecnológico muestra que Windows es el sistema operativo más común (más de 32,000 instancias), seguido por iOS (18,000), Mac (12,000) y Android (5,000), con Linux y otros sistemas teniendo presencia marginal. En cuanto a dispositivos, hay una ligera predominancia de equipos de escritorio (aproximadamente 74,000) sobre dispositivos móviles (62,000). Estos patrones de uso podrían ser relevantes para identificar comportamientos atípicos en transacciones potencialmente fraudulentas.</p>
+<p>Tabla de Categoria de la Variable ProdCD</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Código</p></th>
+<th class="head"><p>Posible Significado</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>A</p></td>
+<td><p>Débito automático</p></td>
+</tr>
+<tr class="row-odd"><td><p>B</p></td>
+<td><p>Compra con tarjeta en punto físico</p></td>
+</tr>
+<tr class="row-even"><td><p>C</p></td>
+<td><p>Retiro de efectivo</p></td>
+</tr>
+<tr class="row-odd"><td><p>D</p></td>
+<td><p>Transferencia entre cuentas</p></td>
+</tr>
+<tr class="row-even"><td><p>E</p></td>
+<td><p>Pago de servicios</p></td>
+</tr>
+<tr class="row-odd"><td><p>F</p></td>
+<td><p>Compra en línea</p></td>
+</tr>
+<tr class="row-even"><td><p>G</p></td>
+<td><p>Transacción en cajero automático</p></td>
+</tr>
+<tr class="row-odd"><td><p>H</p></td>
+<td><p>Pago de tarjeta de crédito</p></td>
+</tr>
+<tr class="row-even"><td><p>I</p></td>
+<td><p>Pago por banca móvil</p></td>
+</tr>
+<tr class="row-odd"><td><p>J</p></td>
+<td><p>Envío de dinero</p></td>
+</tr>
+<tr class="row-even"><td><p>K</p></td>
+<td><p>Compra en comercio internacional</p></td>
+</tr>
+<tr class="row-odd"><td><p>L</p></td>
+<td><p>Carga de saldo (prepago, celular, etc.)</p></td>
+</tr>
+<tr class="row-even"><td><p>M</p></td>
+<td><p>Transacción sospechosa</p></td>
+</tr>
+<tr class="row-odd"><td><p>N</p></td>
+<td><p>Reverso o anulación de transacción</p></td>
+</tr>
+<tr class="row-even"><td><p>O</p></td>
+<td><p>Transferencia a terceros</p></td>
+</tr>
+<tr class="row-odd"><td><p>P</p></td>
+<td><p>Préstamo o crédito</p></td>
+</tr>
+<tr class="row-even"><td><p>Q</p></td>
+<td><p>Pago de impuestos</p></td>
+</tr>
+<tr class="row-odd"><td><p>R</p></td>
+<td><p>Recarga o abono</p></td>
+</tr>
+<tr class="row-even"><td><p>S</p></td>
+<td><p>Suscripción automática</p></td>
+</tr>
+<tr class="row-odd"><td><p>T</p></td>
+<td><p>Transferencia programada</p></td>
+</tr>
+<tr class="row-even"><td><p>U</p></td>
+<td><p>Transacción fallida</p></td>
+</tr>
+<tr class="row-odd"><td><p>V</p></td>
+<td><p>Venta o reembolso</p></td>
+</tr>
+<tr class="row-even"><td><p>W</p></td>
+<td><p>Transacción web / comercio electrónico</p></td>
+</tr>
+<tr class="row-odd"><td><p>X</p></td>
+<td><p>Transacción externa</p></td>
+</tr>
+<tr class="row-even"><td><p>Y</p></td>
+<td><p>Validación o prueba</p></td>
+</tr>
+<tr class="row-odd"><td><p>Z</p></td>
+<td><p>Cierre de cuenta o saldo final</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Estilo general</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
+
+<span class="c1"># Variables categóricas y limpieza</span>
+<span class="n">variables</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;card4&#39;</span><span class="p">,</span> <span class="s1">&#39;card6&#39;</span><span class="p">,</span> <span class="s1">&#39;OpSyst&#39;</span><span class="p">,</span> <span class="s1">&#39;DevType&#39;</span><span class="p">]</span>
+<span class="n">FD2</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">FD2</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+<span class="n">FD2</span><span class="p">[</span><span class="s1">&#39;ProdCD_label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">FD2</span><span class="p">[</span><span class="s1">&#39;ProdCD&#39;</span><span class="p">]</span>
+
+<span class="c1"># Verificamos columnas disponibles</span>
+<span class="n">columnas_disponibles</span> <span class="o">=</span> <span class="n">FD2</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">variables_existentes</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">variables</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">columnas_disponibles</span><span class="p">]</span>
+
+<span class="c1"># Crear figura 3x2</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">18</span><span class="p">))</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+<span class="c1"># Guardar handles de la leyenda para usar después</span>
+<span class="n">handles_global</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">labels_global</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="c1"># Gráfico 1: Boxplot - Distribución de montos</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">FD2</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;ProdCD_label&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;TransAmt&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Distribución según categoria del producto&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>  <span class="c1"># Escala logarítmica para manejar valores extremos</span>
+
+<span class="c1"># Gráfico 2: Barplot - Monto promedio</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">FD2</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;ProdCD_label&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;TransAmt&#39;</span><span class="p">,</span> <span class="n">errorbar</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Monto promedio de Transacción por productos&#39;</span><span class="p">)</span>
+
+<span class="c1"># Etiquetas sobre las barras del gráfico 2</span>
+<span class="n">max_y1</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">patches</span><span class="p">:</span>
+    <span class="n">height</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">get_x</span><span class="p">()</span> <span class="o">+</span> <span class="n">p</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">height</span> <span class="o">+</span> <span class="mf">0.02</span> <span class="o">*</span> <span class="n">max_y1</span><span class="p">,</span>
+                 <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">height</span><span class="si">:</span><span class="s1">,.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">)</span>
+
+<span class="c1"># Gráficos proporcionales</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">variables_existentes</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">FD2</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="n">var</span><span class="p">,</span> <span class="s1">&#39;ProdCD_label&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;conteo&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">counts</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">var</span><span class="p">)[</span><span class="s1">&#39;conteo&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span>
+    <span class="n">counts</span><span class="p">[</span><span class="s1">&#39;Proporcion&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">counts</span><span class="p">[</span><span class="s1">&#39;conteo&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">total</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">barplot</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">counts</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">var</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;Proporcion&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;ProdCD_label&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Proporción de </span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s1"> por tipo de fraude&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">handles_global</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">handles_global</span><span class="p">,</span> <span class="n">labels_global</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">get_legend</span><span class="p">()</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+
+    <span class="c1"># Etiquetas sobre las barras</span>
+    <span class="n">max_y</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">patches</span><span class="p">:</span>
+        <span class="n">height</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">height</span><span class="p">)</span> <span class="ow">and</span> <span class="n">height</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">get_x</span><span class="p">()</span> <span class="o">+</span> <span class="n">p</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">height</span> <span class="o">+</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="n">max_y</span><span class="p">,</span>
+                    <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">height</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+
+<span class="c1"># Eliminar ejes vacíos si sobran</span>
+<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">variables_existentes</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">axes</span><span class="p">)):</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">delaxes</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+
+<span class="c1"># Añadir leyenda global (abajo centrada)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">handles_global</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels_global</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower center&#39;</span><span class="p">,</span>
+           <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.01</span><span class="p">),</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>  <span class="c1"># Espacio inferior para la leyenda</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/dac2c068ad2a52b08205f0abd049f0130b4241a7978c7818a8c9076f50109b50.png" src="_images/dac2c068ad2a52b08205f0abd049f0130b4241a7978c7818a8c9076f50109b50.png" />
+</div>
+</div>
+<p>El consorcio de análisis identificó patrones significativos al relacionar características del producto y tecnología con posibles indicadores de fraude. La distribución de montos por categoría del producto (ProdCD) muestra que los productos tipo “R” tienen el valor promedio más alto (<span class="math notranslate nohighlight">\(191.86), seguidos por &quot;W&quot; (\)</span>154.16), mientras que los productos “C” presentan el promedio más bajo ($40.41). Al examinar patrones de fraude por tipo de tarjeta (card4), observamos que las tarjetas Visa y Mastercard están asociadas con mayor proporción de transacciones clasificadas como “W” (73.1% y 71.8% respectivamente), mientras que American Express muestra alta asociación con “R” (71.7%). En cuanto al tipo de cuenta (card6), las tarjetas de crédito muestran mayor proporción de clasificación “W” (44.7%) comparado con débito (79.5%). Respecto a entornos tecnológicos, Linux muestra la mayor proporción de productos “R” (69.2%), mientras que los dispositivos móviles presentan mayor proporción de productos “C” (60.2%) que los de escritorio (35.6%). Estos patrones de asociación proporcionan insights valiosos para mejorar la precisión de los modelos de detección de fraude.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Asegurar que la variable ProdCD_label existe</span>
+<span class="n">FD2</span><span class="p">[</span><span class="s1">&#39;ProdCD_label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">FD2</span><span class="p">[</span><span class="s1">&#39;ProdCD&#39;</span><span class="p">]</span>
+
+<span class="c1"># Estilo</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
+
+<span class="c1"># Variables categóricas a comparar con TransAmt</span>
+<span class="n">variables</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;card4&#39;</span><span class="p">,</span> <span class="s1">&#39;card6&#39;</span><span class="p">,</span> <span class="s1">&#39;OpSyst&#39;</span><span class="p">,</span> <span class="s1">&#39;DevType&#39;</span><span class="p">]</span>
+
+<span class="c1"># Crear figura 2x2</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+<span class="c1"># Generar los boxplots con hue</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">variables</span><span class="p">):</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">FD2</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">var</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;TransAmt&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;ProdCD_label&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;TransAmt vs </span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s1"> por tipo de producto&#39;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>  <span class="c1"># Escala log para valores extremos</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">legend_</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>  <span class="c1"># Eliminar leyenda de cada gráfico individual</span>
+
+<span class="c1"># Añadir una única leyenda global</span>
+<span class="n">handles</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Tipo de producto&#39;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper center&#39;</span><span class="p">,</span>
+           <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">),</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">])</span>  <span class="c1"># Deja espacio arriba para la leyenda global</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/442acbb23b44b09799aff8c2a16d813ddfef9556d264351efe8ef5fc990b1b3a.png" src="_images/442acbb23b44b09799aff8c2a16d813ddfef9556d264351efe8ef5fc990b1b3a.png" />
+</div>
+</div>
+<p>El grupo especializado analizó las relaciones entre montos de transacción (TransAmt) y diversos factores tecnológicos y financieros, revelando patrones distintos según el tipo de producto. Los gráficos muestran que los productos tipo “W” y “R” consistentemente presentan montos de transacción más elevados que los tipos “C”, “S” y “H” en todas las categorías analizadas. Al examinar la relación con card4, observamos que tanto Visa como Mastercard muestran rangos de valores más amplios para productos “W” y “R”, mientras que American Express muestra montos más concentrados. Similar patrón aparece con card6, donde las tarjetas de crédito exhiben valores más altos para productos “W” y “R” que las de débito. Respecto a factores tecnológicos, los montos de transacción para productos “W” son notablemente más altos en entornos Windows que en otros sistemas operativos, y se mantienen relativamente consistentes entre dispositivos móviles y de escritorio. Los datos también revelan mayor presencia de valores atípicos (outliers) para transacciones de alto valor en productos “W” a través de todas las plataformas, sugiriendo posibles indicadores de comportamientos inusuales que podrían ser relevantes para la detección de fraude.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Detección de Fraude Bancario: La Convergencia de la Inteligencia Artificial</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="2%20EDA%20Train_transaction.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">EDA Train_transaction</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">EDA Test_transaction</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-transaction">Test_transaction</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-del-conjunto-de-datos-de-fraude">Variables del Conjunto de Datos de Fraude</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notas-importantes">Notas Importantes</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Jesús D. Zamora Th., Gregory J. Melendéz A.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
